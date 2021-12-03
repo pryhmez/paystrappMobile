@@ -4,6 +4,8 @@ import store from './configureStore';
 // const store = getStore();
 
 const socket = openSocket('http://192.168.0.115:8080', {
+  // const socket = openSocket('https://paystrapp.com', {
+
   query: {token: '3749384208402'},
 });
 
@@ -23,7 +25,6 @@ socket.on('connect', () => {
 
     for (i = 0; i < data.slots.length; i++) {
       if (data.slots[i] < remainder) {
-        // console.log("===========")
         remainder = remainder - data.slots[i];
         console.log(remainder)
       } else {
@@ -59,7 +60,7 @@ socket.on('connect', () => {
     // console.log(payload);
 
     // console.log(data);
-    console.log(store.getState());
+    // console.log(store.getState());
     cb('recieved');
   });
 });
@@ -69,4 +70,4 @@ function privateMessenger(message, cb) {
     cb(response);
   });
 }
-export {privateMessenger, socket};
+export {socket};

@@ -16,10 +16,13 @@ import {
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 
+import axios from 'axios';
+import { addUser } from '../actions/user';
+
 import Button from './helpers/button';
 import Logo from './helpers/logo';
 import Success from './helpers/success';
-
+import { apiConfig, client } from '../config/axios';
 const CELL_COUNT = 4;
 
 const SetTransactionPin = prop => {
@@ -33,17 +36,32 @@ const SetTransactionPin = prop => {
     setValue,
   });
 
-  async function setPin(phoneNumber) {
-    console.log(prop.user.email);
-    //     if (phoneNumber.charAt(0) == '0') {
-    //         await setPhone('+234'+phoneNumber.substring(1))
-    //     }
-    //     Keyboard.dismiss
-    //   //   let p = '+234'+phoneNumber.substring(1);
-    //   const confirmation = await auth().signInWithPhoneNumber('+447444555666');
-    //   setConfirm(confirmation);
-    //   setSent(true);
-  }
+  async function setPin() {
+    axios
+    .post(apiConfig.baseUrl + 'auth/settransactionpin', {
+      email: prop.user.email,
+      pin: value,
+    })
+    .then(response => {
+      let res = response.data;
+
+      console.log(res)
+      prop.dispatch(
+        addUser(
+          prop.user.token,
+          res.data._id,
+          res.data.email,
+          res.data.firstName,
+          res.data.lastName,
+          res.data.emailVerified,
+          res.data.phoneVerified,
+          res.data.accountBalance,
+          res.data.transactionPin
+        ),
+      );
+  })
+
+}
 
   return (
     <SafeAreaView style={[styles.container]}>

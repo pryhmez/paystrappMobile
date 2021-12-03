@@ -9,12 +9,13 @@ import {
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+import Header from './helpers/header'
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Button from './helpers/lightButton';
-import Logo from './helpers/logo';
 
 const Paybills = props => {
   const [sessionComplete, setSessionComplete] = useState(true);
@@ -28,19 +29,8 @@ const Paybills = props => {
       />
 
       <View style={styles.container}>
-        <View style={styles.btnContainer}>
-          <Logo imgStyle={{width: 120}} containerStyle={{width: '40%', height: '100%', alignItems: 'flex-start'}} />
-          <TouchableOpacity style={styles.timerBtn}>
-            <Text
-              style={{
-                // fontFamily: 'Raleway-Medium',
-                fontSize: 20,
-                color: '#1D0C47',
-              }}>
-              Bill Payment
-            </Text>
-          </TouchableOpacity>
-        </View>
+
+        <Header title={"Bill Payment"} />
 
         <View style={styles.adCont}>
           <Button>
@@ -61,7 +51,7 @@ const Paybills = props => {
             />
           </Button>
 
-          <Button>
+          <Button action={() => props.navigation.navigate("AirtimeRecharge")}>
             <Text style={{color: '#1D0C47', fontSize: 20}}>
               Airtime Recharge
             </Text>

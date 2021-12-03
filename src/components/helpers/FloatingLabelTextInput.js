@@ -40,6 +40,7 @@ class FloatingLabelInput extends Component {
     };
     return (
       <View style={{ paddingTop: 18, marginTop: 0 }}>
+        {console.warn(this.state.isFocused)}
         <Animated.Text style={labelStyle}>
           {label}
         </Animated.Text>

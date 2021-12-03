@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {connect, useDispatch, useSelector} from 'react-redux';
+import {connect, useDispatch} from 'react-redux';
 import {
   SafeAreaView,
   StatusBar,
@@ -8,16 +8,21 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
-  NativeEventEmitter
+  Button,
+  Alert,
+  ToastAndroid,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import admob, {MaxAdContentRating} from '@react-native-firebase/admob';
+import NetInfo from '@react-native-community/netinfo';
+// import admob, {MaxAdContentRating} from '@react-native-firebase/admob';
 import {
   InterstitialAd,
   RewardedAd,
   BannerAd,
   TestIds,
+  AdEventType,
 } from '@react-native-firebase/admob';
+import MyModal from './helpers/myModal';
 
 import {
   widthPercentageToDP as wp,
@@ -27,47 +32,103 @@ import {
 const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
 
 const Earn = props => {
-
   // const value = useSelector(state => state.countdown);
   const dispatch = useDispatch();
-
 
   const [sessionComplete, setSessionComplete] = useState(!true);
 
   // const { hours = 0, minutes = 0, seconds = 60 } = {hours: 00, minutes: 00, seconds: 00};
   const [[hrs, mins, secs], setTime] = useState([0, 10, 10]);
+  const [loaded, setLoaded] = useState(false);
+  const [event, setEvent] = useState();
+  const [vpnOn, setVpnOn] = useState(false);
 
-  // const reset = () => {
-  //   setSessionComplete(true);
-  //   setTime([parseInt(0), parseInt(0), parseInt(0)])
-  // };
+  useEffect(() => {
+    // Subscribe
+    const unsubscribe = NetInfo.addEventListener(state => {
+      console.warn('Connection type', state.type);
+      console.log('Is connected?', state.isConnected);
 
-//   const tick = () => {
-   
-//     if (hrs === 0 && mins === 0 && secs === 0) 
-//         reset()
-//     else if (mins === 0 && secs === 0) {
-//         setTime([hrs - 1, 59, 59]);
-//     } else if (secs === 0) {
-//         setTime([hrs, mins - 1, 59]);
-//     } else {
-//         setTime([hrs, mins, secs - 1]);
-//     }
-// };
+      if (state.type === 'vpn') {
+        setVpnOn(true);
+      } else {
+        setVpnOn(false);
+      }
+    });
 
-useEffect(() => {
-  // const timerId = setInterval(() => tick(), 1000);
-  // return () => clearInterval(timerId);
-});
+    const eventListener = interstitial.onAdEvent(type => {
+      setEvent(type);
 
-useEffect(() => {
-  const sec = parseInt(props.countdown.timer, 10); // convert value to number if it's string
-  let hours   = Math.floor(sec / 3600); // get hours
-  let minutes = Math.floor((sec - (hours * 3600)) / 60); // get minutes
-  let seconds = sec - (hours * 3600) - (minutes * 60);
-  setTime([hours, minutes, seconds]);
-  // console.log(hours, minutes, secs)
-}, [props.countdown.timer])
+      if (type === AdEventType.LOADED) {
+        setLoaded(true);
+      } else {
+        setLoaded(false);
+      }
+    });
+
+    // Start loading the interstitial straight away
+    interstitial.load();
+
+    // Unsubscribe from events on unmount
+    return () => {
+      eventListener();
+      // Unsubscribe
+      unsubscribe();
+    };
+  }, []);
+
+  showAlertBox = () => {
+    Alert.alert(
+      'Attention',
+      'Please turn on your vpn as it would help us track your earning better' +
+        '.',
+      [{text: 'OK'}],
+      {cancelable: false},
+    );
+  };
+
+  const showToastWithGravityAndOffset = () => {
+    ToastAndroid.showWithGravityAndOffset(
+      'Please turn on your vpn as it would help us track your earning better',
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+
+  useEffect(() => {
+    // const timerId = setInterval(() => tick(), 1000);
+    // return () => clearInterval(timerId);
+    if (props.countdown.count % 2 == 0) {
+      setSessionComplete(false);
+    } else {
+      setSessionComplete(true);
+    }
+  });
+
+  useEffect(() => {
+    const sec = parseInt(props.countdown.timer, 10); // convert value to number if it's string
+    let hours = Math.floor(sec / 3600); // get hours
+    let minutes = Math.floor((sec - hours * 3600) / 60); // get minutes
+    let seconds = sec - hours * 3600 - minutes * 60;
+    setTime([hours, minutes, seconds]);
+    // console.log(hours, minutes, secs)
+  }, [props.countdown.timer]);
+
+  // No advert ready to show yet
+  // if (!vpnOn) {
+  //   return showAlertBox();
+  // }
+
+  // return (
+  //   <Button
+  //     title="Show Interstitial"
+  //     onPress={() => {
+  //       interstitial.show();
+  //     }}
+  //   />
+  // );
 
   return (
     <SafeAreaView style={styles.page}>
@@ -78,6 +139,29 @@ useEffect(() => {
       />
 
       <View style={styles.container}>
+        <MyModal
+          modalVisible={!vpnOn}
+          containerStyle={{width: '100%'}}
+          modalStyle={{width: wp('80%'), borderColor: '#FF910099', justifyContent: 'center'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Ionicons
+              name={'ios-warning-outline'}
+              size={30}
+              color={'#FF0000'}
+            />
+            <Text style={{fontFamily: 'Raleway-Regular', fontSize: 17}}>
+              OOPS! please turn on a VPN.
+            </Text>
+          </View>
+ 
+          <View style={{ width: '100%', marginTop: 10}}>
+            <Text style={{fontFamily: 'Raleway-Regular', fontSize: 15, textAlign: 'justify' }}>
+              We recomended you use Thunder VPN and set your preferred server to
+              the United States to get the best experience.{' '}
+            </Text>
+          </View>
+        </MyModal>
+
         <View style={styles.btnContainer}>
           <TouchableOpacity style={styles.timerBtn}>
             <Ionicons
@@ -94,8 +178,8 @@ useEffect(() => {
                 height: '100%',
               }}>
               {`${hrs.toString().padStart(2, '0')}:${mins
-            .toString()
-            .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}
+                .toString()
+                .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}
             </Text>
           </TouchableOpacity>
         </View>
@@ -118,9 +202,15 @@ useEffect(() => {
                   fontSize: wp('4.5%'),
                   textAlign: 'center',
                 }}>
-                Check back in 5hrs for a new earning session
+                Check back in{' '}
+                {`${hrs.toString().padStart(2, '0')}:${mins
+                  .toString()
+                  .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}{' '}
+                for a new earning session
               </Text>
-              <TouchableOpacity style={styles.btn}>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => props.navigation.navigate('Dashboard')}>
                 <Text style={{color: 'white', fontFamily: 'Raleway-Regular'}}>
                   Go To Home
                 </Text>
@@ -134,10 +224,14 @@ useEffect(() => {
                 color={'black'}
                 style={{position: 'absolute', zIndex: 10}}
               />
-            
+
               <View style={{height: '100%'}}>
-              <ActivityIndicator style={{position: 'absolute', top: '49%', left: '49%'}} color='#FF9100' size='large' />
-                <BannerAd
+                <ActivityIndicator
+                  style={{position: 'absolute', top: '49%', left: '49%'}}
+                  color="#FF9100"
+                  size="large"
+                />
+                {/* <BannerAd
                   unitId={TestIds.BANNER}
                   size={`${wp('88%')}x${hp('77%')}`}
                   onAdOpened={() => {
@@ -145,6 +239,17 @@ useEffect(() => {
                   }}
                   onAdFailedToLoad={(error) => {
                     console.warn('Advert failed to load: ', error);}}
+                /> */}
+                <Button
+                  title="Start Session"
+                  disabled={!loaded}
+                  onPress={() => {
+                    if (!vpnOn) {
+                      showToastWithGravityAndOffset;
+                    } else {
+                      interstitial.show();
+                    }
+                  }}
                 />
               </View>
             </View>
@@ -179,7 +284,7 @@ const styles = StyleSheet.create({
   timerBtn: {
     width: '75%',
     height: '100%',
-    borderColor: '#FF9100',
+    borderColor: '#FF910099',
     borderWidth: 1,
     maxHeight: 45,
     borderRadius: 7,
@@ -226,7 +331,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     user: state.user,
-    countdown: state.countdown
+    countdown: state.countdown,
   };
 };
 

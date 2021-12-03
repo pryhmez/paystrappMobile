@@ -17,7 +17,7 @@ const Button = props => {
           style={{
             fontSize: 30,
             color: '#1D0C47',
-            fontWeight: '400',
+            fontWeight: '500',
             marginTop: '10%',
           }}>
           {props.title}

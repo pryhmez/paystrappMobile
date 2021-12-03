@@ -9,6 +9,8 @@ const initialState = {
   lastName: '',
   emailVerified: null,
   phoneVerified: null,
+  accountBalance: 0,
+  transactionPin: false
 };
 
 export default function user(state = initialState, action) {
@@ -22,21 +24,39 @@ export default function user(state = initialState, action) {
         firstName: action.firstName,
         lastName: action.lastName,
         emailVerified: action.emailVerified,
-        phoneVerified: action.phoneVerified
+        phoneVerified: action.phoneVerified,
+        accountBalance: action.accountBalance,
+        transactionPin: action.transactionPin
       };
       break;
     case 'EMAIL_VERIFIED':
-        persistUser('USER', {...state, emailVerified: true})
+      persistUser('USER', {...state, emailVerified: true});
       return {
         ...state,
         emailVerified: true,
       };
+      break;
+    case 'SIGN_OUT':
+      AsyncStorage.clear();
+      return {
+        ...state,
+        token: '',
+        userId: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        emailVerified: null,
+        phoneVerified: null,
+        accountBalance: 0,
+        transactionPin: null
+      };
+      break;
     default:
       return state;
   }
 }
 
 const persistUser = async function (storageKey, payload) {
-    const data = JSON.stringify(payload);
-    await AsyncStorage.setItem(storageKey, data);
-  };
+  const data = JSON.stringify(payload);
+  await AsyncStorage.setItem(storageKey, data);
+};

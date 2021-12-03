@@ -16,6 +16,10 @@ import {connect} from 'react-redux';
 import {addUser, signInUser} from '../actions/user';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import KeyboardAvoidanceWrapper from './helpers/keyboardAvoidanceWrapper';
+import InputField from './helpers/inputField';
+import Logo from './helpers/logo';
+import Button from './helpers/button';
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -94,7 +98,7 @@ class SignIn extends React.Component {
 
   SignInUser = () => {
     Keyboard.dismiss();
-    console.log(this.state);
+    // console.log(this.state);
 
     const validationResult = this.validateAll();
 
@@ -104,15 +108,37 @@ class SignIn extends React.Component {
       this.props
         .signInUser(this.state)
         .then(result => {
-          console.warn(result)
+          this.setState({loading: false})
+          // console.warn(result);
           switch (result.status) {
             case 200:
               console.log('==============');
               break;
+            case 401:
+              console.log('login failed');
+              break;
+            case 402:
+              console.log('incorrect username or password');
+              break;
             default:
           }
         })
-        .catch(err => {});
+        .catch(err => {
+          this.setState({loading: false})
+          console.log(err);
+          switch (err.status) {
+            case "200":
+              console.log('==============');
+              break;
+            case "401":
+              console.log('login failed');
+              break;
+            case "402":
+              console.log('incorrect username or password');
+              break;
+            default:
+          }
+        });
     }
     // this.props.navigation.navigate('')
   };
@@ -124,16 +150,17 @@ class SignIn extends React.Component {
         <View style={styles.container}>
           <KeyboardAvoidanceWrapper>
             <View style={styles.logoArea}>
-              <Image
+              {/* <Image
                 source={require('../assets/logo4x.png')}
                 style={{width: 200, resizeMode: 'contain'}}
-              />
+              /> */}
+              <Logo />
             </View>
 
             <View
               style={{
                 width: wp('92%'),
-                height: hp('20%'),
+                height: hp('15%'),
                 marginLeft: wp('3%'),
                 justifyContent: 'center',
               }}>
@@ -149,41 +176,42 @@ class SignIn extends React.Component {
                 {' '}
                 {this.state.error && this.state.error}{' '}
               </Text>
-              <Input
-                inputStyle={styles.input}
-                inputContainerStyle={styles.inputContainer}
-                keyboardType="default"
-                ref="email"
-                // containerStyle={{ marginTop: 15 }}
+
+              <InputField
+                label={'Email'}
                 returnKeyType="next"
+                keyboardType="email-address"
+                autoComplete="email"
                 placeholder="Email Address"
-                placeholderTextColor="#1D0C47"
                 value={this.state.email}
-                onChangeText={value => this.setState({email: value})}
-                // errorMessage={this.state.emailError}
-                onEndEditing={event => event.nativeEvent.text.trim()} // remove leading/traling whitepaces
-                // onSubmitEditing={() => this.refs.formInputPassword.focus()}
+                onChangeText={value => this.setState({email: value.trim()})}
+                onEndEditing={event => event.nativeEvent.text.trim()}
               />
 
-              <Input
-                inputStyle={styles.input}
-                inputContainerStyle={styles.inputContainer}
+              <InputField
+                label={'Password'}
+                returnKeyType="go"
+                // ref="password"
                 keyboardType="default"
-                ref="password"
-                secureTextEntry={true}
-                returnKeyType="next"
                 placeholder="Enter Password"
-                placeholderTextColor="#1D0C47"
                 value={this.state.password}
-                onChangeText={value => this.setState({password: value})}
-                // errorMessage={this.state.emailError}
-                onEndEditing={event => event.nativeEvent.text.trim()} // remove leading/traling whitepaces
-                // onSubmitEditing={() => this.refs.formInputPassword.focus()}
+                onChangeText={value => this.setState({password: value.trim()})}
+                onEndEditing={event => event.nativeEvent.text.trim()}
+                secureTextEntry={true}
               />
 
-              <TouchableOpacity style={styles.btn} onPress={this.SignInUser}>
-                <Text style={{fontSize: 17, color: 'white'}}>Login</Text>
-              </TouchableOpacity>
+              {/* <TouchableOpacity style={styles.btn} onPress={this.SignInUser}>
+                <Text style={{fontSize: 17, color: 'white'}}>Log In</Text>
+              </TouchableOpacity> */}
+
+              <Button
+                name={'Log In'}
+                action={() => {
+                  this.setState({loading: true})
+                  this.SignInUser();
+                }}
+                indicator={this.state.loading}
+              />
             </View>
           </KeyboardAvoidanceWrapper>
           <View style={styles.sigupView}>
@@ -219,7 +247,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logoArea: {
-    height: hp('20%'),
+    height: hp('15%'),
     // backgroundColor: 'chocolate',
     justifyContent: 'center',
     alignItems: 'center',
@@ -231,28 +259,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  input: {
-    width: '100%',
-    flex: 1,
-    backgroundColor: 'white',
-    borderWidth: 1.2,
-    borderColor: '#FF9100',
-    padding: 10,
-    borderRadius: 7,
-    textAlign: 'center',
-    marginBottom: 0,
-    marginTop: 0,
-    // backgroundColor: 'brown'
-  },
-  inputContainer: {
-    borderColor: 'transparent',
-    // width: 'q%',
-    alignItems: 'center',
-    // padding: 10,
-    // backgroundColor: 'green',
-    marginBottom: 0,
-    marginTop: 0,
-  },
+
   visibilityBtn: {
     position: 'absolute',
     right: 3,
@@ -269,12 +276,12 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: wp('70%'),
-    height: 50,
+    height: 40,
     paddingLeft: 10,
     paddingRight: 10,
     marginTop: 10,
     backgroundColor: '#1D0C47',
-    borderRadius: 10,
+    borderRadius: 5,
     // marginVertical: 10,
     // paddingVertical: 12,
     elevation: 200,

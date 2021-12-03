@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import store from '../config/configureStore';
+import {socket, connectFunction} from '../config/socketConfig';
 import {apiConfig, client} from '../config/axios';
 
 export const addUser = (
@@ -11,6 +12,8 @@ export const addUser = (
   lastName,
   emailVerified,
   phoneVerified,
+  accountBalance,
+  transactionPin
 ) => {
   persistUser('USER', {
     token,
@@ -20,6 +23,8 @@ export const addUser = (
     lastName,
     emailVerified,
     phoneVerified,
+    accountBalance,
+    transactionPin
   });
   return {
     type: 'ADD_USER',
@@ -30,16 +35,27 @@ export const addUser = (
     lastName,
     emailVerified,
     phoneVerified,
+    accountBalance,
+    transactionPin
   };
 };
 
 export const emailVerified = () => {
-  return {type: 'EMAIL_VERIFIED'}
+  return {type: 'EMAIL_VERIFIED'};
+};
+
+export const signOutUser = () => {
+  // AsyncStorage.clear();
+  return {
+    type: 'SIGN_OUT'
+  }
 }
 
 export const signInUser = ({email, password}) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
+      // console.log('about to hit');
+
       axios
         .post(apiConfig.baseUrl + 'auth/signin', {
           email,
@@ -47,6 +63,7 @@ export const signInUser = ({email, password}) => {
         })
         .then(response => {
           let res = response.data;
+          socket.emit('userid', res.user._id);
           dispatch(
             addUser(
               res.token,
@@ -56,6 +73,8 @@ export const signInUser = ({email, password}) => {
               res.user.lastName,
               res.user.emailVerified,
               res.user.phoneVerified,
+              res.user.accountBalance,
+              res.user.transactionPin
             ),
           );
 
@@ -65,7 +84,14 @@ export const signInUser = ({email, password}) => {
         })
         .catch(err => {
           // dispatch({ type: SIGNUP_USER_FAILED, payload: true });
-          return reject({message: 'something went wrong' + String(err)});
+          const response = err.response;
+          return reject({
+            message: response.data.message
+              ? response.data.message
+              : 'something went wrong',
+            status: String(response.status),
+            data: response.data,
+          });
         });
     });
   };
@@ -74,8 +100,10 @@ export const signInUser = ({email, password}) => {
 export const signUpUser = ({firstName, lastName, email, phone, password}) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
+      console.log('about to hit');
       axios
         .post(apiConfig.baseUrl + 'auth/signup', {
+          // .post('https://paystrapp.com/api/auth/signup', {
           email,
           password,
           firstName,
@@ -84,7 +112,7 @@ export const signUpUser = ({firstName, lastName, email, phone, password}) => {
         })
         .then(response => {
           let res = response.data.data;
-          console.log(res);
+          console.log(res, '-------------');
           dispatch(
             addUser(res.token, res._id, res.email, res.firstName, res.lastName),
           );
@@ -125,25 +153,26 @@ export const verifyEmail = (email, code) => {
   if (code) {
     return dispatch => {
       return new Promise((resolve, reject) => {
-        console.log(code, "=========")
-        axios.post(apiConfig.baseUrl + 'auth/emailconfirm', {email, code}).then(res => {
-          console.log(res.data);
+        console.log(code, '=========');
+        axios
+          .post(apiConfig.baseUrl + 'auth/emailconfirm', {email, code})
+          .then(res => {
+            console.log(res.data);
 
-          let status = res.status;
-          let success = res.data.success;
+            let status = res.status;
+            let success = res.data.success;
 
-          console.log(status)
-          // if(status === 200) {
+            console.log(status);
+            // if(status === 200) {
 
-          //     dispatch(emailVerified())
-          // }
+            //     dispatch(emailVerified())
+            // }
 
-          if (res) {
-            return resolve({status, success});
-          }
-        }).catch(err => {
-
-        });
+            if (res) {
+              return resolve({status, success});
+            }
+          })
+          .catch(err => {});
       });
     };
   }
@@ -187,11 +216,11 @@ export const getUserProfile = (userId, owner) => {
 
 const persistUser = async function (storageKey, payload) {
   const data = JSON.stringify(payload);
-  console.log(data)
+  console.log(data);
   await AsyncStorage.setItem(storageKey, data);
 };
 
-setInterval( function() {
-  store.dispatch({type: 'TICK_TIMER'})
+setInterval(function () {
+  store.dispatch({type: 'TICK_TIMER'});
   // console.log('=====!')
-}, 1000 )
+}, 1000);

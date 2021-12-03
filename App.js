@@ -8,18 +8,22 @@
 
 import React, {useState, useEffect} from 'react';
 import {Provider} from 'react-redux';
+import {Provider as PaperProvider, DefaultTheme} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
-import io from "socket.io-client"
-import { socket } from "./src/config/socketConfig";
+import io from 'socket.io-client';
+import {socket} from './src/config/socketConfig';
 import store from './src/config/configureStore';
-import { countdown } from './src/actions/countdown';
+import {countdown} from './src/actions/countdown';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {LogBox} from 'react-native';
+LogBox.ignoreLogs(['new NativeEventEmitter']);
 
 import {
   AuthScreenNav,
   TabsNav,
   SplashNav,
   VerifyNav,
+  Main,
 } from './src/config/router';
 import AuthPage from './src/components/AuthPage';
 
@@ -39,7 +43,6 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // const store = getStore();
 
-
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -52,9 +55,12 @@ const App = () => {
     height: '100%',
   };
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   console.log(store.getState().user.userId)
+  //   socket.emit('userid', store.getState().user.userId);
+  // }, [store.getState()])
 
-    
+  useEffect(() => {
     AsyncStorage.getItem('USER').then(result => {
       if (result) {
         setIsSignedIn(true);
@@ -66,12 +72,14 @@ const App = () => {
           lastName,
           emailVerified,
           phoneVerified,
+          accountBalance,
+          transactionPin
         } = JSON.parse(result);
-        
-        if(isEmailVerified) {
+
+        if (isEmailVerified) {
           setIsEmailVerified(true);
         }
-        
+
         store.dispatch({
           type: 'ADD_USER',
           token,
@@ -80,13 +88,15 @@ const App = () => {
           firstName,
           lastName,
           emailVerified,
-          phoneVerified
+          phoneVerified,
+          accountBalance,
+          transactionPin
         });
-        socket.on("connect", () => {
-          socket.emit("userid", userId)
+        socket.on('connect', () => {
+          // console.warn('============================')
+          socket.emit('userid', userId);
           // console.log(store.getState()); // x8WIv7-mJelg7on_ALbx
-    
-        }); 
+        });
       }
       setIsSignedIn(result);
       setTimeout(() => {
@@ -94,14 +104,14 @@ const App = () => {
       }, 3000);
     });
 
-
     store.subscribe(() => {
-      if (store.getState().user.token != '') {
+      // if (store.getState().user.token != '') {
+      // console.log(store.getState().user, isSignedIn)
+      if (store.getState().user.token) {
         setIsSignedIn(true);
       }
-
-      if (store.getState().user.emailVerified  == true) {
-        // console.log('setting to true')
+      console.log(store.getState().user.emailVerified, store.getState().user.emailVerified === 'true', store.getState().user.transactionPin )
+      if (store.getState().user.emailVerified === 'true' && store.getState().user.transactionPin) {
         setIsEmailVerified(true);
       }
     });
@@ -109,29 +119,45 @@ const App = () => {
       // console.log(store);
       setIsLoading(false);
     }, 3000);
-
-
-
   }, []);
+
+  const theme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: '#FF9100',
+      text: 'black',
+      placeholder: '#1D0C4780',
+    },
+  };
 
   return (
     <SafeAreaProvider style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      {console.log(isSignedIn)}
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={'white'}
+      />
 
       <Provider store={store}>
-        <NavigationContainer>
-          {isLoading ? (
-            <SplashNav />
-          ) : isSignedIn ? (
-            isEmailVerified ? (
-              <TabsNav />
+        <PaperProvider theme={theme}>
+          <NavigationContainer>
+            {isLoading ? (
+              <SplashNav />
+            ) : isSignedIn ? (
+              // ) : store.getState().user.token ? (
+
+              isEmailVerified ? (
+                // <TabsNav />
+                <Main />
+              ) : (
+                <VerifyNav />
+              )
             ) : (
-              <VerifyNav />
-            )
-          ) : (
-            <AuthScreenNav />
-          )}
-        </NavigationContainer>
+              <AuthScreenNav />
+            )}
+          </NavigationContainer>
+        </PaperProvider>
       </Provider>
     </SafeAreaProvider>
   );

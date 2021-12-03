@@ -14,7 +14,7 @@ const Button = props => {
         style={[styles.btn, props.styles]}
         onPress={props.action}>
         {!props.indicator ? (
-          <Text style={{fontSize: 17, color: 'white'}}>{props.name}</Text>
+          <Text style={[{fontSize: 15, color: 'white'}, props.textStyle]}>{props.name}</Text>
         ) : (
           <ActivityIndicator
             animating
@@ -36,12 +36,12 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: '70%',
-    height: 30,
+    height: 40,
     paddingLeft: 10,
     paddingRight: 10,
     marginTop: 4,
     backgroundColor: '#1D0C47',
-    borderRadius: 10,
+    borderRadius: 5,
     // marginVertical: 10,
     // paddingVertical: 12,
     elevation: 200,

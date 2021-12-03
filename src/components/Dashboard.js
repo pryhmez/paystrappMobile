@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, StatusBar, ScrollView, SafeAreaView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  ScrollView,
+  SafeAreaView,
+} from 'react-native';
 import {connect} from 'react-redux';
 
 import {
@@ -9,35 +16,128 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AwesomeIcons from 'react-native-vector-icons/FontAwesome';
 import Awesome5 from 'react-native-vector-icons/FontAwesome5';
-import { socket } from "../config/socketConfig";
+import {socket, connectFunction} from '../config/socketConfig';
 
 import user from '../reducers/user';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const Dashboard = props => {
+const SlideCard = props => {
+  return (
+    <View style={styles.slideCard}>
+      <View style={styles.slideContainer}>
+        <View style={styles.balanceCont}>
+          <Text style={{color: 'white', fontFamily: 'Raleway-SemiBold'}}>
+            {props.title}
+          </Text>
+          <Text
+            style={{
+              color: '#028802',
+              fontFamily: 'Raleway-Medium',
+              fontSize: 30,
+            }}>
+            ${props.amount}
+          </Text>
+        </View>
 
-  const [[hrs, mins, secs], setTime] = useState([0, 10, 10]);
+        <View
+          style={{
+            width: '100%',
+            flex: 1,
+            backgroundColor: 'transparent',
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+          }}>
+          <TouchableOpacity
+            style={{
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'transparent',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <AwesomeIcons
+              name={'university'}
+              size={15}
+              color={'white'}
+              style={styles.ImageStyle}
+            />
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 11,
+                fontFamily: 'Raleway-Medium',
+              }}>
+              Withdraw
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'transparent',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <AwesomeIcons
+              name={'money'}
+              size={15}
+              color={'white'}
+              style={styles.ImageStyle}
+            />
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 11,
+                fontFamily: 'Raleway-Medium',
+              }}>
+              Fund from bank{' '}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const AdsSlider = props => {
+  return (
+    <View style={[styles.slideCard, {padding: 5}]}>
+      <View style={[styles.slideContainer, styles.secondCont]}>
+        <Text style={{fontFamily: 'Raleway-Regular'}}>
+          Utilize our Investment tool to grow your wealth!
+        </Text>
+        <Awesome5 name={'plane-departure'} size={15} color={'#1E0A9DCC'} />
+      </View>
+    </View>
+  );
+};
+
+//==================================================
+
+const Dashboard = props => {
+  const [[hrs, mins, secs], setTime] = useState([0, 0, 0]);
 
   useEffect(() => {
-
-    socket.on("INCOMING_SLOT", (data, cb) => {
+  
+    socket.emit('userid', props.user.userId);
+    socket.on('INCOMING_SLOT', (data, currentTime, cb) => {
       console.warn(data);
-      cb("recieved")
-  });
-
-  }, [])
+      // cb('recieved');
+    });
+  }, [props.user]);
 
   useEffect(() => {
     const sec = parseInt(props.countdown.timer, 10); // convert value to number if it's string
-    let hours   = Math.floor(sec / 3600); // get hours
-    let minutes = Math.floor((sec - (hours * 3600)) / 60); // get minutes
-    let seconds = sec - (hours * 3600) - (minutes * 60);
+    let hours = Math.floor(sec / 3600); // get hours
+    let minutes = Math.floor((sec - hours * 3600) / 60); // get minutes
+    let seconds = sec - hours * 3600 - minutes * 60;
     setTime([hours, minutes, seconds]);
-  }, [props.countdown.timer])
+  }, [props.countdown.timer]);
 
   return (
     <View style={styles.pageContainer}>
-      <StatusBar barStyle="dark-content" style={{backgroundColor: 'white'}}/>
+      <StatusBar barStyle="dark-content" style={{backgroundColor: 'white'}} />
 
       <View style={styles.welcomeText}>
         <View
@@ -48,11 +148,11 @@ const Dashboard = props => {
             justifyContent: 'space-between',
             alignItems: 'flex-end',
           }}>
-          <Text style={{fontSize: 22}}>
+          <Text style={{fontSize: 22, textTransform: 'capitalize'}}>
             Welcome {props.user.firstName ? props.user.firstName : 'John'},
           </Text>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => props.navigation.navigate("Settings")} >
             <Ionicons
               name={'ios-settings-outline'}
               size={27}
@@ -65,103 +165,17 @@ const Dashboard = props => {
 
       <View style={styles.console}>
         <ScrollView horizontal={true} style={{marginLeft: wp('5%')}}>
-          <View style={styles.slideCard}>
-            <View style={styles.slideContainer}>
-              <View style={styles.balanceCont}>
-                <Text style={{color: 'white', fontFamily: 'Raleway-SemiBold'}}>
-                  Wallet balance
-                </Text>
-                <Text
-                  style={{
-                    color: '#028802',
-                    fontFamily: 'Raleway-Medium',
-                    fontSize: 30,
-                  }}>
-                  $5000
-                </Text>
-              </View>
+          <SlideCard title={'Wallet Balance'} amount={props.user.accountBalance} />
 
-              <View
-                style={{
-                  width: '100%',
-                  flex: 1,
-                  backgroundColor: 'transparent',
-                  flexDirection: 'row',
-                  justifyContent: 'space-evenly',
-                }}>
-                <TouchableOpacity
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'transparent',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <AwesomeIcons
-                    name={'university'}
-                    size={15}
-                    color={'white'}
-                    style={styles.ImageStyle}
-                  />
-                  <Text
-                    style={{
-                      color: 'white',
-                      fontSize: 11,
-                      fontFamily: 'Raleway-Medium',
-                    }}>
-                    Withdraw
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'transparent',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <AwesomeIcons
-                    name={'money'}
-                    size={15}
-                    color={'white'}
-                    style={styles.ImageStyle}
-                  />
-                  <Text
-                    style={{
-                      color: 'white',
-                      fontSize: 11,
-                      fontFamily: 'Raleway-Medium',
-                    }}>
-                    Fund from bank{' '}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-
-          <View style={[styles.slideCard, {backgroundColor: 'transparent'}]}>
-            <Text>Wallet balance</Text>
-            <Text>$5000</Text>
-            <View></View>
-          </View>
+          <SlideCard title={'Monthly Earning'} amount={'2000'} />
         </ScrollView>
       </View>
 
       <View style={styles.slider}>
         <ScrollView horizontal={true} style={{marginLeft: wp('5%')}}>
-          <View style={[styles.slideCard, {padding: 5}]}>
-            <View style={[styles.slideContainer, styles.secondCont]}>
-              <Text style={{fontFamily: 'Raleway-Regular'}}>
-                Utilize our Investment tool to grow your wealth!
-              </Text>
-              <Awesome5
-                name={'plane-departure'}
-                size={15}
-                color={'#1E0A9DCC'}
-              />
-            </View>
-          </View>
+          <AdsSlider />
+          <AdsSlider />
+          <AdsSlider />
         </ScrollView>
       </View>
 
@@ -169,14 +183,9 @@ const Dashboard = props => {
       <View style={styles.countdown}>
         <View style={styles.newSessionCont}>
           <Text style={{fontFamily: 'Raleway-Regular', color: '#1D0C47'}}>
-            {
-              props.countdown.count % 2 == 0
-              ?
-              "Your earning session has started"
-              :
-              "New earning session countdown"
-
-            }
+            {props.countdown.count % 2 == 0
+              ? 'Your earning session has started'
+              : 'New earning session countdown'}
           </Text>
         </View>
 
@@ -188,10 +197,20 @@ const Dashboard = props => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{fontFamily: 'Raleway-Medium', fontSize: 26, color: '#1D0C47'}}>
-          {`${hrs.toString().padStart(2, '0')}:${mins
-            .toString()
-            .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}
+          <Text
+            style={{
+              fontFamily: 'Raleway-Medium',
+              fontSize: 26,
+              color: '#1D0C47',
+            }}>
+
+            {
+            
+            `${hrs.toString().padStart(2, '0')}:${mins
+              .toString()
+              .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+        
+            }
           </Text>
         </View>
 
@@ -314,7 +333,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     user: state.user,
-    countdown: state.countdown
+    countdown: state.countdown,
   };
 };
 

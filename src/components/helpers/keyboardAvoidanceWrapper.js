@@ -1,19 +1,27 @@
 import react from 'react';
 
-import {KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback} from 'react-native';
+import {KeyboardAvoidingView , TouchableWithoutFeedback} from 'react-native';
+import KeyboardAwareScrollView from "react-native-keyboard-aware-scroll-view";
 
 const KeyboardAvoidanceWrapper = ({children}) => {
 
    return (
-      <KeyboardAvoidingView style={{flex: 1, width: '100%'}}>
-         <ScrollView>
+      <KeyboardAvoidingView style={{ width: '100%', alignItems: 'center', flexDirection: 'column', backgroundColor: 'black'}}
+      // keyboardVerticalOffset = {'50%'}
+      // behaviour= {'height'}
+      >
+         {/* <KeyboardAwareScrollView
+          resetScrollToCoords={{ x: 0, y: 0 }}
+         //  contentContainerStyle={styles.container}
+          scrollEnabled={false}
+         > */}
 
-            <TouchableWithoutFeedback>
+            {/* <TouchableWithoutFeedback > */}
 
                {children}
                
-            </TouchableWithoutFeedback>
-         </ScrollView>
+            {/* </TouchableWithoutFeedback> */}
+         {/* </KeyboardAwareScrollView> */}
       </KeyboardAvoidingView>
    )
 }

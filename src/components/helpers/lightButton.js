@@ -17,7 +17,7 @@ const LightButton = props => {
       <TouchableOpacity
         style={[styles.btn, props.styles]}
         onPress={props.action}>
-        {props.children}
+        {props.children || (<Text style={{textAlign: 'center'}}>{props.title}</Text>)}
       </TouchableOpacity>
     </View>
   );

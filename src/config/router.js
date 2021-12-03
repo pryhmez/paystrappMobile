@@ -25,6 +25,11 @@ import Cards from '../components/Cards';
 import Earn from '../components/Earn';
 import Paybills from '../components/Paybills';
 
+import AirtimeRecharge from '../components/AirtimeRecharge';
+import Settings from '../components/Settings';
+import SetWithdrawalAccount from '../components/SetWithdrawalAccount';
+import ChangeTransactionPin from '../components/ChangeTransactionPin';
+
 // import Profile from '../components/Profile';
 
 // import ImageIcon from '../components/helpers/ImageIcon';
@@ -140,10 +145,12 @@ function MyTabBar({state, descriptors, navigation}) {
   );
 }
 
+const MainStack = createStackNavigator();
 const SplashStack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const HomeStack = createBottomTabNavigator();
 const VerifyStack = createStackNavigator();
+const PaybillsStack = createStackNavigator();
 
 const AuthScreenNav = () => {
   return (
@@ -172,7 +179,21 @@ const VerifyNav = () => {
   return (
     <VerifyStack.Navigator headerMode="none">
         <VerifyStack.Screen name="EmailVerification" component={EmailVerification} />
+        <VerifyStack.Screen name="SetTransPin" component={SetTransactionPin} />
     </VerifyStack.Navigator>
+  )
+}
+
+const Main = () => {
+  return (
+    <MainStack.Navigator headerMode='none'>
+      <MainStack.Screen name='Tabs' component={TabsNav}/>
+      <MainStack.Screen name='AirtimeRecharge' component={PaybillsNav} />
+      <MainStack.Screen name='Settings' component={Settings} />
+      <MainStack.Screen name='ChangePin' component={ChangeTransactionPin}/>
+      <MainStack.Screen name='SetWithdrawalAccount' component={SetWithdrawalAccount} />
+      <MainStack.Screen name='Verify' component={VerifyNav}/>
+    </MainStack.Navigator>
   )
 }
 
@@ -184,8 +205,8 @@ const TabsNav = () => {
         {/* <HomeStack.Screen name='Home' component={Home} /> */}
         <HomeStack.Screen name="Dashboard" component={Dashboard} />
         <HomeStack.Screen name="Earn" component={Earn} />
-        <HomeStack.Screen name="Cards" component={Cards} />
         <HomeStack.Screen name="Paybills" component={Paybills} />
+        <HomeStack.Screen name="More" component={Cards} />
       </HomeStack.Navigator>
   );
 };
@@ -197,6 +218,19 @@ const SplashNav = () => {
       </SplashStack.Navigator>
   );
 };
+
+const PaybillsNav = () => {
+  return (
+    <PaybillsStack.Navigator headerMode="none">
+      <PaybillsStack.Screen name="airtime" component={AirtimeRecharge} />
+      <PaybillsStack.Screen name="paybills" component={Paybills} />
+    </PaybillsStack.Navigator>
+  )
+}
+
+// const Settings = () => {
+//   return ()
+// }
 
 const DottedLine = ({color, length}) => (
   <View style={styles.container}>
@@ -227,6 +261,7 @@ const styles = StyleSheet.create({
 });
 
 export {
+  Main,
   SplashNav, 
   AuthScreenNav, 
   TabsNav,

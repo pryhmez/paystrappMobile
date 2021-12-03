@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {connect, useDispatch} from 'react-redux';
 import {verifyEmail, emailVerified} from '../actions/user';
+import SetTransactionPin from './SetTransactionPin';
 
 import {
   CodeField,
@@ -24,11 +25,12 @@ import Success from './helpers/success';
 const CELL_COUNT = 6;
 
 const EmailVerification = prop => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const [value, setValue] = useState('');
   const [confirm, setConfirm] = useState(true);
   const [phone, setPhone] = useState('');
+  const [pinset, setPinset] = useState();
 
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -37,111 +39,115 @@ const EmailVerification = prop => {
   });
 
   async function verify(phoneNumber) {
-    console.log(value);
+    prop.verifyEmail(prop.user.email, value).then(result => {
+      if (result.status == 200 && result.success == true) {
+        setConfirm(false);
 
-    prop.verifyEmail(prop.user.email, value).then(
-        result => {
-            if(result.status == 200 && result.success == true) {
-                setConfirm(false)
-
-                setTimeout(() => {
-                    dispatch(emailVerified())
-                }, 4000)
-            }
-
-
-        }
-    );
+        setTimeout(() => {
+          dispatch(emailVerified());
+        }, 4000);
+      }
+    });
   }
 
   useEffect(() => {
-    if (prop.user.email) {
-      console.log(prop.user.email);
-      prop.verifyEmail(prop.user.email);
+    console.log(prop.user.transactionPin, '================');
+
+    if (prop.user.emailVerified === 'true') {
+      setPinset(true);
+    } else {
+      if (prop.user.email) {
+        console.log(prop.user.email);
+        prop.verifyEmail(prop.user.email);
+      }
     }
   }, []);
 
-  return (
-    <SafeAreaView style={[styles.container]}>
-      <StatusBar barStyle="light-content" backgroundColor="#1a1a1c" />
-      {/* <View style={styles.container}>
+  if (!pinset) {
+    return (
+      <SafeAreaView style={[styles.container]}>
+        <StatusBar barStyle="light-content" backgroundColor="#1a1a1c" />
+        {/* <View style={styles.container}>
             <View style={styles.appBarContainer}>
                 <TouchableOpacity style={styles.backBtn} onPress={() => this.props.navigation.goBack()}>
                     <Ionicons name={'ios-arrow-round-back'} size={27} color={'white'} />
                 </TouchableOpacity>
             </View> */}
 
-      <View style={styles.mainContainer}>
-        <Logo />
-        {
-          // sent
-          confirm ? (
-            <>
-              <View style={{marginBottom: 10, height: '20%'}}>
-                <Text style={styles.headerTxt}>Confirm Email</Text>
-                <Text style={{...styles.title}}>
-                  Enter confirmation code sent to your email address
-                </Text>
-                <Text style={{...styles.title, color: 'white'}}>{phone}</Text>
-              </View>
-              <CodeField
-                ref={ref}
-                {...props}
-                value={value}
-                onChangeText={setValue}
-                cellCount={CELL_COUNT}
-                rootStyle={styles.codeFiledRoot}
-                keyboardType="number-pad"
-                renderCell={({index, symbol, isFocused}) => {
-                  if (value.length == prop.cellcount) {
-                    () => confirmCode();
-                    prop.sendPhone(phone);
-                    return;
-                  }
-                  // console.warn(value.length, prop.cellcount)
-                  return (
-                    <Text
-                      key={index}
-                      style={[
-                        styles.cell,
-                        value.length >= index + 1 && styles.focusCell,
-                      ]}
-                      onLayout={getCellOnLayoutHandler(index)}>
-                      {symbol || (isFocused ? <Cursor /> : null)}
-                    </Text>
-                  );
-                }}
-              />
+        <View style={styles.mainContainer}>
+          <Logo />
+          {
+            // sent
+            confirm ? (
+              <>
+                <View style={{marginBottom: 10, height: '20%'}}>
+                  <Text style={styles.headerTxt}>Confirm Email</Text>
+                  <Text style={{...styles.title}}>
+                    Enter confirmation code sent to your email address
+                  </Text>
+                  <Text style={{...styles.title, color: 'white'}}>{phone}</Text>
+                </View>
+                <CodeField
+                  ref={ref}
+                  {...props}
+                  value={value}
+                  onChangeText={setValue}
+                  cellCount={CELL_COUNT}
+                  rootStyle={styles.codeFiledRoot}
+                  keyboardType="number-pad"
+                  renderCell={({index, symbol, isFocused}) => {
+                    if (value.length == prop.cellcount) {
+                      () => confirmCode();
+                      prop.sendPhone(phone);
+                      return;
+                    }
+                    // console.warn(value.length, prop.cellcount)
+                    return (
+                      <Text
+                        key={index}
+                        style={[
+                          styles.cell,
+                          value.length >= index + 1 && styles.focusCell,
+                        ]}
+                        onLayout={getCellOnLayoutHandler(index)}>
+                        {symbol || (isFocused ? <Cursor /> : null)}
+                      </Text>
+                    );
+                  }}
+                />
 
-              <Button
-                name={'Submit'}
-                styles={{marginTop: 50, height: 40}}
-                action={() => verify(value)}></Button>
-              <TouchableOpacity
-                style={{
-                  marginTop: 40,
-                  justifyContent: 'center',
-                  width: '100%',
-                  flexDirection: 'row',
-                }}
-                onPress={() => signInWithPhoneNumber(phone)}>
-                <Text style={{color: '#1D0C47'}}>Resend</Text>
-              </TouchableOpacity>
-            </>
-          ) : (
-            <>
-              <Success
-                src={require('../assets/confirm.png')}
-                title={'Success!'}
-              />
-            </>
-          )
-        }
-      </View>
+                <Button
+                  name={'Submit'}
+                  styles={{marginTop: 50, height: 40}}
+                  action={() => verify(value)}></Button>
+                <TouchableOpacity
+                  style={{
+                    marginTop: 40,
+                    justifyContent: 'center',
+                    width: '100%',
+                    flexDirection: 'row',
+                  }}
+                  onPress={() => signInWithPhoneNumber(phone)}>
+                  <Text style={{color: '#1D0C47'}}>Resend</Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <Success
+                  src={require('../assets/confirm.png')}
+                  title={'Success!'}
+                />
+              </>
+            )
+          }
+        </View>
 
-      {/* </View> */}
-    </SafeAreaView>
-  );
+        {/* </View> */}
+      </SafeAreaView>
+    );
+  } else {
+    return <SetTransactionPin />;
+  }
 };
 
 const styles = StyleSheet.create({

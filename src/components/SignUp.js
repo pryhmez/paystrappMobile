@@ -2,18 +2,20 @@ import React, {useState} from 'react';
 import {
   SafeAreaView,
   Text,
-  TextInput,
   StyleSheet,
   StatusBar,
   View,
   TouchableOpacity,
   Image,
+  ScrollView,
   Keyboard,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Dimensions,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {signUpUser} from '../actions/user';
-import {Input} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import KeyboardAvoidanceWrapper from './helpers/keyboardAvoidanceWrapper';
@@ -21,6 +23,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+
+import Logo from './helpers/logo';
+import InputField from './helpers/inputField';
+import Button from './helpers/button';
 
 class SignUp extends React.Component {
   // const CELL_COUNT = 5;
@@ -33,6 +39,7 @@ class SignUp extends React.Component {
       phone: '',
       password: '',
       confirmPassword: '',
+      loading: false,
     };
   }
 
@@ -133,72 +140,81 @@ class SignUp extends React.Component {
       this.setState({isSubmitting: true});
       console.log(validationResult);
 
-      this.props.signUpUser(this.state).then(
-        result => {
+      this.props
+        .signUpUser(this.state)
+        .then(result => {
           // console.log(result);
-          this.setState({isSubmitting: false});
-          switch(result.status) {
-
+          this.setState({loading: false});
+          switch (result.status) {
             case 200:
-              this.props.navigation.navigate('SignIn')
+              this.props.navigation.navigate('SignIn');
               break;
-              default:
+            default:
           }
-        }
-        ).catch(err => {
-        // console.log(err);
-        this.setState({isSubmitting: false});
+        })
+        .catch(err => {
+          // console.log(err);
+          this.setState({isSubmitting: false});
 
-        switch(err.status) {
-          case 400:
-          break;
-          default:
+          switch (err.status) {
+            case 400:
+              break;
+            default:
+          }
+        });
+    } else {
+      this.setState({loading: false});
 
-        }
-      });
     }
   };
 
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <StatusBar barStyle="light-content" backgroundColor="#1D0C47" />
-        {/* 
-          <View style={styles.appBarContainer}>
-            <TouchableOpacity
-              style={styles.backBtn}
-              onPress={() => this.props.navigation.goBack()}>
-              <Ionicons
-                name={'ios-arrow-round-back'}r
-                size={27}
-                color={'white'}
-              /> 
-            </TouchableOpacity>
-          </View> */}
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={{alignItems: 'center'}}>
+        <View style={{height: hp('100%')}}>
+          <StatusBar barStyle="dark-content" backgroundColor="white" />
 
-        <KeyboardAvoidanceWrapper>
+          {/* <KeyboardAvoidanceWrapper> */}
           <View style={styles.logoArea}>
-            <Image
-              source={require('../assets/logo4x.png')}
-              style={{width: 200, resizeMode: 'contain'}}
-            />
+            <Logo />
           </View>
-
           <View
-            style={{width: wp('92%'), height: hp('7%'), marginLeft: wp('3%')}}>
-            <Text style={{fontSize: 23, fontWeight: '600', marginRight: '10%'}}>
-              Create an account
-            </Text>
-            <Text>
-              You are one step away from building a new stream of income.
-            </Text>
+            style={{
+              width: wp('100%'),
+              // height: hp('7%'),
+              flex: 0.1,
+              marginLeft: wp('0%'),
+              alignItems: 'center',
+              // backgroundColor: 'green'
+            }}>
+            <View style={{width: '91.5%', height: '100%'}}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: '400',
+                  marginRight: '10%',
+                  color: '#1D0C47',
+                }}>
+                Create an account
+              </Text>
+              <Text
+                style={{
+                  color: '#1D0C47',
+                  fontFamily: 'Raleway-Regular',
+                  fontSize: 13,
+                }}>
+                You are one step away from building a new stream of income.
+              </Text>
 
-            {this.state.isSubmitting && (
-              <ActivityIndicator
-                animating
-                style={[{margin: 0, padding: 0, height: 50}]}
-              />
-            )}
+              {this.state.isSubmitting && (
+                <ActivityIndicator
+                  animating
+                  style={[{margin: 0, padding: 0, height: 50}]}
+                />
+              )}
+            </View>
           </View>
 
           <View style={styles.formContainer}>
@@ -207,132 +223,104 @@ class SignUp extends React.Component {
               {this.state.error && this.state.error}{' '}
             </Text>
 
-            <Input
-              inputStyle={styles.input}
-              inputContainerStyle={styles.inputContainer}
-              keyboardType="default"
-              ref="firstName"
-              // containerStyle={{ marginTop: 15 }}
+            <InputField
+              label={'First Name'}
               returnKeyType="next"
               placeholder="First Name"
-              placeholderTextColor="#1D0C47"
               value={this.state.firstName}
-              onChangeText={value => this.setState({firstName: value})}
-              // errorMessage={this.state.emailError}
-              onEndEditing={event => event.nativeEvent.text.trim()} // remove leading/traling whitepaces
-              // onSubmitEditing={() => this.refs.formInputPassword.focus()}
+              onChangeText={value => this.setState({firstName: value.trim()})}
             />
 
-            <Input
-              inputStyle={styles.input}
-              inputContainerStyle={styles.inputContainer}
-              keyboardType="default"
-              ref="lastName"
-              // containerStyle={{ marginTop: 15 }}
+            <InputField
+              label={'Last Name'}
               returnKeyType="next"
               placeholder="Last Name"
-              placeholderTextColor="#1D0C47"
               value={this.state.lastName}
-              onChangeText={value => this.setState({lastName: value})}
-              // errorMessage={this.state.emailError}
-              onEndEditing={event => event.nativeEvent.text.trim()} // remove leading/traling whitepaces
-              // onSubmitEditing={() => this.refs.formInputPassword.focus()}
+              onChangeText={value => this.setState({lastName: value.trim()})}
             />
 
-            <Input
-              inputStyle={styles.input}
-              inputContainerStyle={styles.inputContainer}
-              keyboardType="email-address"
-              ref="email"
-              // containerStyle={{ marginTop: 15 }}
+            <InputField
+              label={'Email'}
               returnKeyType="next"
               placeholder="Email Address"
-              placeholderTextColor="#1D0C47"
               value={this.state.email}
-              onChangeText={value => this.setState({email: value})}
-              errorMessage={this.state.emailError}
-              onEndEditing={event => event.nativeEvent.text.trim()} // remove leading/traling whitepaces
-              // onSubmitEditing={() => this.refs.formInputPassword.focus()}
+              onChangeText={value => this.setState({email: value.trim()})}
             />
 
-            <Input
-              inputStyle={styles.input}
-              inputContainerStyle={styles.inputContainer}
-              keyboardType="phone-pad"
-              ref="phone"
-              // containerStyle={{ marginTop: 15 }}
+            <InputField
+              label={'Phone'}
               returnKeyType="next"
               placeholder="Phone Number"
-              placeholderTextColor="#1D0C47"
               value={this.state.phone}
-              onChangeText={value => this.setState({phone: value})}
-              // errorMessage={this.state.emailError}
-              onEndEditing={event => event.nativeEvent.text.trim()} // remove leading/traling whitepaces
-              // onSubmitEditing={() => this.refs.formInputPassword.focus()}
+              onChangeText={value => this.setState({phone: value.trim()})}
             />
 
-            <Input
-              inputStyle={styles.input}
-              inputContainerStyle={styles.inputContainer}
-              keyboardType="password"
-              secureTextEntry={true}
-              ref="password"
-              // containerStyle={{ marginTop: 15 }}
+            <InputField
+              label={'Password'}
               returnKeyType="next"
-              placeholder="Password"
-              placeholderTextColor="#1D0C47"
+              placeholder="Enter Password"
               value={this.state.password}
-              onChangeText={value => this.setState({password: value})}
-              errorMessage={this.state.emailError}
-              onEndEditing={event => event.nativeEvent.text.trim()} // remove leading/traling whitepaces
-              // onSubmitEditing={() => this.refs.formInputPassword.focus()}
-            />
-
-            <Input
-              inputStyle={styles.input}
-              inputContainerStyle={styles.inputContainer}
-              keyboardType="default"
+              onChangeText={value => this.setState({password: value.trim()})}
               secureTextEntry={true}
-              ref="confirmPassword"
-              // containerStyle={{ marginTop: 15 }}
-              returnKeyType="next"
-              placeholder="Re-enter Password"
-              placeholderTextColor="#1D0C47"
-              value={this.state.confirmPassword}
-              onChangeText={value => this.setState({confirmPassword: value})}
-              // errorMessage={this.state.emailError}
-              onEndEditing={event => event.nativeEvent.text.trim()} // remove leading/traling whitepaces
-              // onSubmitEditing={() => this.refs.formInputPassword.focus()}
             />
 
-            <TouchableOpacity style={styles.btn} onPress={this.doSIgnUp}>
-              <Text style={{color: 'white'}}>Proceed</Text>
-            </TouchableOpacity>
+            <InputField
+              label={'Re-enter Password'}
+              returnKeyType="go"
+              returnKeyLabel="Let's go!!"
+              placeholder="Re-enter Password"
+              value={this.state.confirmPassword}
+              onChangeText={value =>
+                this.setState({confirmPassword: value.trim()})
+              }
+              secureTextEntry={true}
+            />
+
+            <Button
+              name={'Proceed'}
+              action={() => {
+                this.setState({loading: true});
+                this.doSIgnUp();
+              }}
+              indicator={this.state.loading}
+            />
           </View>
 
           <View style={styles.bottomView}>
             <TouchableOpacity
               style={{flexDirection: 'row'}}
               onPress={() => this.props.navigation.navigate('SignIn')}>
-              <Text>Have an account?</Text>
-              <Text style={{color: '#1E0A9D'}}> Log In</Text>
+              <Text style={{fontFamily: 'Raleway-regular'}}>
+                Have an account?
+              </Text>
+              <Text style={{color: '#1E0A9D', fontFamily: 'Raleway-regular'}}>
+                {' '}
+                Log In
+              </Text>
             </TouchableOpacity>
 
             <View style={{flexDirection: 'row', marginTop: 10}}>
-              <Text>By clicking “Sign up” you accept Paystrapp’s</Text>
+              <Text style={{fontFamily: 'Raleway-regular'}}>
+                By clicking “Sign up” you accept Paystrapp’s
+              </Text>
 
               <TouchableOpacity>
                 <Text
-                  style={{color: '#1E0A9D', flexWrap: 'wrap', flexShrink: 1}}>
+                  style={{
+                    color: '#1E0A9D',
+                    flexWrap: 'wrap',
+                    flexShrink: 1,
+                    fontFamily: 'Raleway-regular',
+                  }}>
                   {' '}
                   terms of service
                 </Text>
               </TouchableOpacity>
             </View>
           </View>
-        </KeyboardAvoidanceWrapper>
-        {/* <PhoneVerification cellcount={6} sendPhone={this.setPhone} /> */}
-      </SafeAreaView>
+          {/* </KeyboardAvoidanceWrapper> */}
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -340,32 +328,36 @@ class SignUp extends React.Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    // flex: 1,
+    height: hp('90%'),
+    // alignItems: 'center',
+    // justifyContent: 'center',
     width: '100%',
   },
-  appBarContainer: {
-    backgroundColor: 'transparent',
-    height: 40,
-    justifyContent: 'center',
-  },
+  // appBarContainer: {
+  //   backgroundColor: 'transparent',
+  //   height: 40,
+  //   justifyContent: 'center',
+  // },
   bottomView: {
-    flex: 1.5,
+    // flex: 1,
+    height: '15%',
     alignItems: 'center',
     // backgroundColor: 'cyan'
   },
   logoArea: {
-    // flex: 2,
-    height: '15%',
+    flex: 0.25,
+    height: hp('19%'),
     // backgroundColor: 'chocolate',
     justifyContent: 'center',
     alignItems: 'center',
   },
   formContainer: {
     width: wp('100%'),
+    flex: 1,
+    // height: hp('10%'),
     // backgroundColor: 'red',
-    // height: hp('65%'),
+    height: hp('100%'),
     paddingLeft: 13,
     paddingRight: 13,
     paddingTop: 0,
@@ -380,37 +372,16 @@ const styles = StyleSheet.create({
   backBtn: {
     marginLeft: 14,
   },
-  input: {
-    width: '100%',
-    flex: 1,
-    height: hp('7%'),
-    backgroundColor: 'white',
-    borderWidth: 1.2,
-    borderColor: '#FF9100',
-    padding: '2.4%',
-    borderRadius: 7,
-    textAlign: 'center',
-    marginBottom: 0,
-    marginTop: 0,
-    // backgroundColor: 'brown'
-  },
-  inputContainer: {
-    borderColor: 'transparent',
-    // height: 'q%',
-    alignItems: 'center',
-    // padding: 10,
-    // backgroundColor: 'green',
-    marginBottom: 0,
-    marginTop: 0,
-  },
+
   btn: {
     width: '70%',
     height: '9%',
+    maxHeight: 40,
     paddingLeft: 10,
     paddingRight: 10,
-    marginTop: 4,
+    marginTop: 20,
     backgroundColor: '#1D0C47',
-    borderRadius: 10,
+    borderRadius: 5,
     // marginVertical: 10,
     // paddingVertical: 12,
     elevation: 200,

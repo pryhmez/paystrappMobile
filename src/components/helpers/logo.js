@@ -10,7 +10,7 @@ const Logo = props => {
     <View style={[styles.container, props.containerStyle]}>
       <Image
         source={require('../../assets/logo4x.png')}
-        style={[{width: 200, resizeMode: 'contain'}, props.imgStyle]}
+        style={[{width: 160, resizeMode: 'contain'}, props.imgStyle]}
       />
     </View>
   );
