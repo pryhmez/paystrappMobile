@@ -54,7 +54,9 @@ const SlideCard = props => {
               backgroundColor: 'transparent',
               alignItems: 'center',
               justifyContent: 'center',
-            }}>
+            }}
+            onPress={props.withdraw}
+            >
             <AwesomeIcons
               name={'university'}
               size={15}
@@ -119,7 +121,6 @@ const Dashboard = props => {
   const [[hrs, mins, secs], setTime] = useState([0, 0, 0]);
 
   useEffect(() => {
-  
     socket.emit('userid', props.user.userId);
     socket.on('INCOMING_SLOT', (data, currentTime, cb) => {
       console.warn(data);
@@ -152,7 +153,8 @@ const Dashboard = props => {
             Welcome {props.user.firstName ? props.user.firstName : 'John'},
           </Text>
 
-          <TouchableOpacity onPress={() => props.navigation.navigate("Settings")} >
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Settings')}>
             <Ionicons
               name={'ios-settings-outline'}
               size={27}
@@ -165,7 +167,11 @@ const Dashboard = props => {
 
       <View style={styles.console}>
         <ScrollView horizontal={true} style={{marginLeft: wp('5%')}}>
-          <SlideCard title={'Wallet Balance'} amount={props.user.accountBalance} />
+          <SlideCard
+            title={'Wallet Balance'}
+            amount={props.user.accountBalance}
+            withdraw={() => props.navigation.navigate('SetWithdrawalAccount', {payout: 'Withdrawal'})}
+          />
 
           <SlideCard title={'Monthly Earning'} amount={'2000'} />
         </ScrollView>
@@ -203,14 +209,9 @@ const Dashboard = props => {
               fontSize: 26,
               color: '#1D0C47',
             }}>
-
-            {
-            
-            `${hrs.toString().padStart(2, '0')}:${mins
+            {`${hrs.toString().padStart(2, '0')}:${mins
               .toString()
-              .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
-        
-            }
+              .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}
           </Text>
         </View>
 

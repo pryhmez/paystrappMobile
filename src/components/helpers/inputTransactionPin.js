@@ -16,9 +16,9 @@ import {
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 
-import Button from './helpers/button';
-import Logo from './helpers/logo';
-import Success from './helpers/success';
+import Button from './button';
+import Logo from './logo';
+import Success from './success';
 
 const CELL_COUNT = 4;
 
@@ -33,27 +33,15 @@ const InputTransactionPin = prop => {
     setValue,
   });
 
-  async function setPin(phoneNumber) {
+  async function verifyPin(phoneNumber) {
     console.log(prop.user.email);
-    //     if (phoneNumber.charAt(0) == '0') {
-    //         await setPhone('+234'+phoneNumber.substring(1))
-    //     }
-    //     Keyboard.dismiss
-    //   //   let p = '+234'+phoneNumber.substring(1);
-    //   const confirmation = await auth().signInWithPhoneNumber('+447444555666');
-    //   setConfirm(confirmation);
-    //   setSent(true);
+ 
   }
 
   return (
     <SafeAreaView style={[styles.container]}>
       <StatusBar barStyle="light-content" backgroundColor="#1a1a1c" />
-      {/* <View style={styles.container}>
-            <View style={styles.appBarContainer}>
-                <TouchableOpacity style={styles.backBtn} onPress={() => this.props.navigation.goBack()}>
-                    <Ionicons name={'ios-arrow-round-back'} size={27} color={'white'} />
-                </TouchableOpacity>
-            </View> */}
+
 
       <View style={styles.mainContainer}>
         <Logo />
@@ -98,25 +86,16 @@ const InputTransactionPin = prop => {
               />
 
               <Button
-                name={'Confirm'}
+                name={'Proceed'}
                 styles={{marginTop: 50, height: 40}}
                 indicator={false}
-                action={() => setPin(value)}></Button>
-              <TouchableOpacity
-                style={{
-                  marginTop: 40,
-                  justifyContent: 'center',
-                  width: '100%',
-                  flexDirection: 'row',
-                }}
-                onPress={() => signInWithPhoneNumber(phone)}>
-                <Text style={{color: '#1D0C47'}}>Resend</Text>
-              </TouchableOpacity>
+                action={() => prop.collectPin(value)}></Button>
+
             </>
           ) : (
             <>
               <Success
-                src={require('../assets/confirm.png')}
+                src={require('../../assets/confirm.png')}
                 title={'Success!'}
               />
             </>

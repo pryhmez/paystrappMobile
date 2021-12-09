@@ -110,8 +110,9 @@ const App = () => {
       if (store.getState().user.token) {
         setIsSignedIn(true);
       }
-      console.log(store.getState().user.emailVerified, store.getState().user.emailVerified === 'true', store.getState().user.transactionPin )
-      if (store.getState().user.emailVerified === 'true' && store.getState().user.transactionPin) {
+      // console.log(store.getState().user.emailVerified, store.getState().user.emailVerified === 'true', store.getState().user.transactionPin )
+      if (store.getState().user.emailVerified+"" === 'true' && store.getState().user.transactionPin) {
+        // if (store.getState().user.emailVerified === true) {
         setIsEmailVerified(true);
       }
     });

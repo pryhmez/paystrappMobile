@@ -23,6 +23,7 @@ import {
   AdEventType,
 } from '@react-native-firebase/admob';
 import MyModal from './helpers/myModal';
+import PaperModal from './helpers/PaperModal';
 
 import {
   widthPercentageToDP as wp,
@@ -42,6 +43,7 @@ const Earn = props => {
   const [loaded, setLoaded] = useState(false);
   const [event, setEvent] = useState();
   const [vpnOn, setVpnOn] = useState(false);
+  const [hideModal, setHideModal] = useState(true)
 
   useEffect(() => {
     // Subscribe
@@ -78,13 +80,13 @@ const Earn = props => {
   }, []);
 
   showAlertBox = () => {
-    Alert.alert(
-      'Attention',
-      'Please turn on your vpn as it would help us track your earning better' +
-        '.',
-      [{text: 'OK'}],
-      {cancelable: false},
-    );
+    // Alert.alert(
+    //   'Attention',
+    //   'Please turn on your vpn as it would help us track your earning better' +
+    //     '.',
+    //   [{text: 'OK'}],
+    //   {cancelable: false},
+    // );
   };
 
   const showToastWithGravityAndOffset = () => {
@@ -139,10 +141,21 @@ const Earn = props => {
       />
 
       <View style={styles.container}>
-        <MyModal
-          modalVisible={!vpnOn}
-          containerStyle={{width: '100%'}}
-          modalStyle={{width: wp('80%'), borderColor: '#FF910099', justifyContent: 'center'}}>
+        <PaperModal
+          show={!vpnOn}
+          // onDismiss={setHideModal(false)}
+          // visible={!vpnOn}
+          contentContainerStyle={{
+            backgroundColor: 'white',
+            padding: 20,
+            width: '85%',
+            alignSelf: 'center',
+            height: '20%',
+            borderRadius: 10,
+            borderColor: '#FF910099',
+            justifyContent: 'center',
+            borderWidth: 1
+          }}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Ionicons
               name={'ios-warning-outline'}
@@ -153,14 +166,19 @@ const Earn = props => {
               OOPS! please turn on a VPN.
             </Text>
           </View>
- 
-          <View style={{ width: '100%', marginTop: 10}}>
-            <Text style={{fontFamily: 'Raleway-Regular', fontSize: 15, textAlign: 'justify' }}>
+
+          <View style={{width: '100%', marginTop: 10}}>
+            <Text
+              style={{
+                fontFamily: 'Raleway-Regular',
+                fontSize: 15,
+                textAlign: 'justify',
+              }}>
               We recomended you use Thunder VPN and set your preferred server to
               the United States to get the best experience.{' '}
             </Text>
           </View>
-        </MyModal>
+        </PaperModal>
 
         <View style={styles.btnContainer}>
           <TouchableOpacity style={styles.timerBtn}>

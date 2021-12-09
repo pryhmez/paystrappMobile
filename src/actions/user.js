@@ -51,6 +51,29 @@ export const signOutUser = () => {
   }
 }
 
+export const setPin = ({token, id, email, firstName, lastName, emailVerified, phoneVerified, accountBalance, transactionPin}) => {
+
+  return dispatch => {
+    return new Promise((resolve, reject) => {
+      dispatch(
+        addUser(
+          token,
+          id,
+          email,
+          firstName,
+          lastName,
+          emailVerified,
+          phoneVerified,
+          accountBalance,
+          transactionPin
+        ),
+      );
+
+      resolve("done");
+    })
+  }
+}
+
 export const signInUser = ({email, password}) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
@@ -153,7 +176,7 @@ export const verifyEmail = (email, code) => {
   if (code) {
     return dispatch => {
       return new Promise((resolve, reject) => {
-        console.log(code, '=========');
+        // console.log(code, '=========');
         axios
           .post(apiConfig.baseUrl + 'auth/emailconfirm', {email, code})
           .then(res => {

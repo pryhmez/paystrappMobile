@@ -17,7 +17,7 @@ import {
 } from 'react-native-confirmation-code-field';
 
 import axios from 'axios';
-import { addUser } from '../actions/user';
+import { addUser, setPin } from '../actions/user';
 
 import Button from './helpers/button';
 import Logo from './helpers/logo';
@@ -46,8 +46,7 @@ const SetTransactionPin = prop => {
       let res = response.data;
 
       console.log(res)
-      prop.dispatch(
-        addUser(
+      prop.addUser(
           prop.user.token,
           res.data._id,
           res.data.email,
@@ -57,8 +56,7 @@ const SetTransactionPin = prop => {
           res.data.phoneVerified,
           res.data.accountBalance,
           res.data.transactionPin
-        ),
-      );
+        )
   })
 
 }
@@ -230,4 +228,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {})(SetTransactionPin);
+export default connect(mapStateToProps, {addUser, setPin})(SetTransactionPin);

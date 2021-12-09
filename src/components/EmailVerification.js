@@ -45,35 +45,37 @@ const EmailVerification = prop => {
 
         setTimeout(() => {
           dispatch(emailVerified());
-        }, 4000);
+          setPinset(true);
+
+        }, 2000);
       }
     });
   }
 
   useEffect(() => {
-    console.log(prop.user.transactionPin, '================');
+    console.log(prop.user.transactionPin, '!================');
 
-    if (prop.user.emailVerified === 'true') {
+    if (prop.user.emailVerified.toString() === 'true') {
       setPinset(true);
     } else {
       if (prop.user.email) {
-        console.log(prop.user.email);
+        // console.log(prop.user.email);
         prop.verifyEmail(prop.user.email);
       }
     }
-  }, []);
+  }, [pinset]);
 
-  if (!pinset) {
-    return (
-      <SafeAreaView style={[styles.container]}>
-        <StatusBar barStyle="light-content" backgroundColor="#1a1a1c" />
-        {/* <View style={styles.container}>
+  return (
+    <SafeAreaView style={[styles.container]}>
+      <StatusBar barStyle="light-content" backgroundColor="#1a1a1c" />
+      {/* <View style={styles.container}>
             <View style={styles.appBarContainer}>
                 <TouchableOpacity style={styles.backBtn} onPress={() => this.props.navigation.goBack()}>
                     <Ionicons name={'ios-arrow-round-back'} size={27} color={'white'} />
                 </TouchableOpacity>
             </View> */}
 
+      {!pinset ? (
         <View style={styles.mainContainer}>
           <Logo />
           {
@@ -141,13 +143,11 @@ const EmailVerification = prop => {
             )
           }
         </View>
-
-        {/* </View> */}
-      </SafeAreaView>
-    );
-  } else {
-    return <SetTransactionPin />;
-  }
+       ) : (
+        <SetTransactionPin />
+      )} 
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -232,4 +232,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {verifyEmail})(EmailVerification);
+export default connect(mapStateToProps, {verifyEmail, emailVerified})(EmailVerification);

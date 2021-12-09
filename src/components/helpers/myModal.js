@@ -20,8 +20,8 @@ const MyModal = props => {
         transparent={true}
         visible={props.modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
+          // Alert.alert('Modal has been closed.');
+          // setModalVisible();
         }}>
         <View style={[styles.centeredView, props.containerStyle]}>
           <View style={[styles.modalView, props.modalStyle]}>

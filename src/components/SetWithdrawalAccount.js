@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {connect, useDispatch, useSelector} from 'react-redux';
+import axios from 'axios';
 import {
   SafeAreaView,
   StatusBar,
@@ -12,24 +13,220 @@ import {
   ToastAndroid,
   NativeEventEmitter,
 } from 'react-native';
-import {Input} from 'react-native-elements';
+import {Picker} from '@react-native-community/picker';
+
+import {apiConfig, client} from '../config/axios';
 
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Header from './helpers/header';
-
 import Button from './helpers/button';
+import Input from './helpers/inputField';
 
 const SetWithdrawalAccount = props => {
   // const value = useSelector(state => state.countdown);
   const dispatch = useDispatch();
 
-  const [sessionComplete, setSessionComplete] = useState(!true);
   const [acctName, setAcctName] = useState();
   const [acctNo, setAcctNo] = useState();
   const [bank, setBank] = useState();
+
+  const [bankList, setBankList] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  async function getAccount(phoneNumber) {
+    axios
+      .post(apiConfig.baseUrl + 'transaction/getaccount', {
+        userId: props.user.userId,
+      })
+      .then(response => {
+        let res = response.data.data;
+
+        switch (response.status + '') {
+          case '200':
+            setAcctName(res.accountName);
+            setAcctNo(res.accountNo);
+            setBank(res.bank);
+            break;
+          case '401':
+            console.log('user account not found');
+            break;
+          case '400':
+            console.log('user account not found');
+            break;
+          default:
+        }
+      });
+  }
+
+  async function getAccountName(phoneNumber) {
+    axios
+      .get(
+        `https://api.paystack.co/bank/resolve?account_number=${acctNo}&bank_code=${bank.code}`,
+        {
+          headers: {
+            Authorization: `Bearer ${apiConfig.payStackSecret}`,
+          },
+        },
+      )
+      .then(response => {
+        let res = response.data.data;
+
+        console.warn(res);
+        switch (response.status + '') {
+          case '200':
+            setAcctName(res.account_name);
+            break;
+          case '401':
+            console.log('user account not found');
+            break;
+          case '400':
+            console.log('incorrect username or password');
+            break;
+          default:
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  async function setAccount(phoneNumber) {
+    // setLoading(true);
+    axios
+      .post(apiConfig.baseUrl + 'transaction/updatebank', {
+        userId: props.user.userId,
+        accountName: acctName,
+        accountNo: acctNo,
+        bank,
+      })
+      .then(response => {
+        let res = response.data;
+
+        switch (response.status + '') {
+          case '200':
+            setLoading(false);
+            console.warn('ogago');
+            break;
+          case '401':
+            console.log('user account not found');
+            break;
+          case '400':
+            console.log('incorrect username or password');
+            break;
+          default:
+        }
+      });
+  }
+
+  async function getBankList() {
+    axios
+      .get('https://api.paystack.co/bank', {
+        headers: {
+          Authorization: `Bearer ${apiConfig.payStackSecret}`,
+        },
+      })
+      .then(response => {
+        let res = response.data.data;
+
+        switch (response.status + '') {
+          case '200':
+            setBankList(res);
+            break;
+          case '401':
+            console.log('user account not found');
+            break;
+          case '400':
+            console.log('incorrect username or password');
+            break;
+          default:
+        }
+      });
+  }
+
+  async function initiatePayout() {
+    setLoading(true);
+    await axios
+      .post(
+        'https://api.paystack.co/transferrecipient',
+        {
+          type: 'nuban',
+          name: acctName,
+          account_number: acctNo,
+          bank_code: bank.code,
+          currency: 'NGN',
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${apiConfig.payStackSecret}`,
+          },
+        },
+      )
+      .then(response => {
+        let res = response.data.data;
+
+        switch (response.status + '') {
+          case '201':
+            initiateTransfer(res.recipient_code)
+            break;
+          case '401':
+            console.log('user account not found');
+            break;
+          case '400':
+            console.log('incorrect username or password');
+            break;
+          default:
+        }
+      });
+  }
+
+  async function initiateTransfer(recipient) {
+
+    await axios
+    .post(
+      'https://api.paystack.co/transfer',
+      {
+        source: 'balance',
+        amount: "20000",
+        recipient,
+        reason: 'paystrapp cashout'
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${apiConfig.payStackSecret}`,
+        },
+      },
+    )
+    .then(response => {
+      let res = response.data.data;
+
+      switch (response.status + '') {
+        case '201':
+          break;
+        case '401':
+          console.log('user account not found');
+          break;
+        case '400':
+          console.log('incorrect username or password');
+          break;
+        default:
+      }
+    });
+
+  }
+
+  useEffect(() => {
+    getAccount();
+    getBankList();
+  }, []);
+
+  useEffect(() => {
+    if (bank && acctNo) {
+      getAccountName();
+    }
+  }, [acctNo, bank]);
 
   return (
     <SafeAreaView style={styles.page}>
@@ -41,7 +238,7 @@ const SetWithdrawalAccount = props => {
 
       <View style={styles.container}>
         <Header
-          title={'Settings'}
+          title={props.route.params ? props.route.params.payout : 'Settings'}
           backBtn={true}
           backAction={() => props.navigation.goBack()}
         />
@@ -54,51 +251,66 @@ const SetWithdrawalAccount = props => {
             height: hp('10%'),
           }}>
           <Text style={{fontSize: 20, fontWeight: '400'}}>
-            Edit Withdrawal account
+            {props.route.params !== undefined ? '' : 'Edit Withdrawal account'}
           </Text>
         </View>
 
         <View style={styles.adCont}>
           <Input
-            inputStyle={styles.input}
-            inputContainerStyle={styles.inputContainer}
-            containerStyle={{paddingHorizontal: 0, flex: 1}}
-            keyboardType="default"
-            returnKeyType="next"
-            placeholder="Enter Acount Name"
-            placeholderTextColor="#1D0C47A0"
-            value={acctName}
-            onChangeText={value => setAcctName(value)}
-            // errorMessage={this.state.emailError}
-            onEndEditing={event => event.nativeEvent.text.trim()} // remove leading/traling whitepaces
-            // onSubmitEditing={() => this.refs.formInputPassword.focus()}
-          />
-
-          <Input
-            inputStyle={styles.input}
-            inputContainerStyle={styles.inputContainer}
-            containerStyle={{paddingHorizontal: 0, flex: 1}}
+            label={'Account No'}
             keyboardType="default"
             returnKeyType="next"
             placeholder="Enter Account No"
             placeholderTextColor="#1D0C47A0"
             value={acctNo}
+            disabled={props.route.params}
             onChangeText={value => setAcctNo(value)}
-            // errorMessage={this.state.emailError}
+            errorMessage={'this.state.emailError'}
             onEndEditing={event => event.nativeEvent.text.trim()} // remove leading/traling whitepaces
             // onSubmitEditing={() => this.refs.formInputPassword.focus()}
           />
 
+          <View
+            style={[
+              styles.input,
+              {
+                padding: 0,
+                minHeight: 45,
+                marginTop: 15,
+                marginLeft: 15,
+                width: '90%',
+                borderColor:
+                  props.route.params !== undefined ? '#cccccc' : '#FF910099',
+              },
+            ]}>
+            <Picker
+              selectedValue={bank}
+              enabled={props.route.params === undefined}
+              style={{
+                backgroundColor: 'transparent',
+                height: 45,
+              }}
+              itemStyle={{backgroundColor: 'blue'}}
+              value={bank}
+              onValueChange={(itemValue, itemIndex) => setBank(itemValue)}>
+              <Picker.Item label="Select Bank" />
+              {bankList.map((item, index) => {
+                return (
+                  <Picker.Item color="white" label={item.name} value={item} />
+                );
+              })}
+            </Picker>
+          </View>
+
           <Input
-            inputStyle={styles.input}
-            inputContainerStyle={styles.inputContainer}
-            containerStyle={{paddingHorizontal: 0, flex: 1}}
+            label={'Account Name'}
             keyboardType="default"
             returnKeyType="next"
-            placeholder="Enter Bank"
+            placeholder="Enter Acount Name"
             placeholderTextColor="#1D0C47A0"
-            value={bank}
-            onChangeText={value => setBank(value)}
+            disabled={true}
+            value={acctName}
+            // onChangeText={value => setAcctName(acctName)}
             // errorMessage={this.state.emailError}
             onEndEditing={event => event.nativeEvent.text.trim()} // remove leading/traling whitepaces
             // onSubmitEditing={() => this.refs.formInputPassword.focus()}
@@ -109,7 +321,14 @@ const SetWithdrawalAccount = props => {
           <Button
             name={'Proceed'}
             styles={{minHeight: 40, marginTop: 100}}
-            action={() => props.navigation.navigate('Tabs')}
+            action={() => {
+              if (props.route.params !== undefined) {
+                initiatePayout();
+              } else {
+                setAccount();
+              }
+            }}
+            indicator={loading}
           />
         </View>
       </View>
@@ -141,10 +360,10 @@ const styles = StyleSheet.create({
     width: '100%',
     // flex: 1,
     backgroundColor: 'white',
-    borderWidth: 1.2,
+    borderWidth: 1,
     borderColor: '#FF910099',
     padding: 10,
-    borderRadius: 7,
+    borderRadius: 5,
     // backgroundColor: 'brown'
   },
   inputContainer: {
@@ -161,7 +380,9 @@ const styles = StyleSheet.create({
     height: hp('37%'),
     width: '100%',
     justifyContent: 'center',
-    paddingTop: hp('3%'),
+    //  paddingTop: hp('3%'),
+    //  backgroundColor: 'green',
+    justifyContent: 'space-evenly',
   },
   adHolder: {
     backgroundColor: '#E7E7E7',

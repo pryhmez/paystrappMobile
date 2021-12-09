@@ -43,7 +43,7 @@ const ChangeTransactionPin = props => {
             label={'Pin'}
             keyboardType="default"
             returnKeyType="next"
-            placeholder="Enter Acount Name"
+            placeholder="Enter Current Pin"
             placeholderTextColor="#1D0C47A0"
             value={pin}
             onChangeText={value => setPin(value)}
@@ -56,7 +56,7 @@ const ChangeTransactionPin = props => {
             label={'New Pin'}
             keyboardType="default"
             returnKeyType="next"
-            placeholder="Enter Bank"
+            placeholder="Enter New Pin"
             placeholderTextColor="#1D0C47A0"
             value={newPin}
             onChangeText={value => setNewPin(value)}
@@ -69,7 +69,7 @@ const ChangeTransactionPin = props => {
             label={'Confirm Pin'}
             keyboardType="default"
             returnKeyType="next"
-            placeholder="Enter Account No"
+            placeholder="Re-enter New Pin"
             placeholderTextColor="#1D0C47A0"
             value={confirmPin}
             onChangeText={value => setConfirmPin(value)}

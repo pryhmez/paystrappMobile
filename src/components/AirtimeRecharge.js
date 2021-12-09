@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import {Picker} from '@react-native-community/picker';
-import {Input} from 'react-native-elements';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
+import {connect} from 'react-redux';
+import { apiConfig } from '../config/axios';
+import {Picker} from '@react-native-community/picker';
+import Input from './helpers/inputField';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import BlueBtn from './helpers/button';
 
 import {
@@ -19,64 +21,89 @@ import {
 } from 'react-native-responsive-screen';
 import Button from './helpers/lightButton';
 import Header from './helpers/header';
+import PaperModal from './helpers/PaperModal';
+import InputTransactionPin from './helpers/inputTransactionPin';
 
 const AirtimeRecharge = props => {
   const [phoneNo, setPhoneNo] = useState();
   const [amount, setAmount] = useState();
   const [provider, setProvider] = useState();
+  const [verified, setVerified] = useState(false);
+  const [pin, setPin] = useState();
+  const [loading, setLoading] = useState(false);
 
   initiateTransaction = () => {
-    console.warn(provider, phoneNo, amount)
-    const params = new URLSearchParams();
-    params.append('operator', provider);
-    params.append('type', 'airtime');
-    params.append('value', amount);
-    params.append('phone', phoneNo);
+    // const params = new URLSearchParams();
+    // params.append('operator', provider);
+    // params.append('type', 'airtime');
+    // params.append('value', amount);
+    // params.append('phone', phoneNo);
 
     axios
       .post(
-        'https://api.mobilevtu.com/v1/MAnsKL9byXCiQ48yFPjxOSUNruUH/topup',
-        // 'https://paystrapp.com/api/auth/signin',
-        params,
+        apiConfig.baseUrl + 'transaction/airtimepurchase',
+        {
+          userId: props.user.userId,
+          email: props.user.email,
+          provider,
+          amount,
+          phone: phoneNo
+        },
         {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Api-Token': `EqGBn90bqtSgaqMAjJGOyrfgRysL`,
-            'Request-Id': '34232',
+            'pin': pin
           },
         },
       )
       .then(res => {
+        setLoading(false);
         console.warn(res.data);
       })
-      .catch(err => {});
+      .catch(err => {
+        setLoading(false)
+        console.warn(err);
+
+      });
   };
 
   checkBalance = () => {};
 
   updateTransaction = () => {};
 
+  verify = () => {
+    setVerified(true)
+  }
+
+  addPin = async (pin) => {
+    // console.log(pin)
+    await setPin(pin);
+    setVerified(false)
+    await setLoading(true);
+    await initiateTransaction();
+  }
+  
   return (
     <SafeAreaView style={styles.page}>
       <StatusBar
         animated={true}
         backgroundColor="#ffffff"
         barStyle={'dark-content'}
-      />
+        />
+
+        <PaperModal show={verified} >
+          <InputTransactionPin collectPin={addPin}/>
+        </PaperModal>
 
       <View style={styles.container}>
         <Header
           title={'Recharge Airtime '}
           backBtn={true}
           backAction={() => props.navigation.goBack()}
-        />
+          />
 
         <View style={styles.adCont}>
-
           <Input
-            inputStyle={styles.input}
-            inputContainerStyle={styles.inputContainer}
-            containerStyle={{ paddingHorizontal: 0, flex: 1 }}
+            label="Phone"
             keyboardType="default"
             returnKeyType="next"
             placeholder="Enter phone number"
@@ -88,11 +115,8 @@ const AirtimeRecharge = props => {
             // onSubmitEditing={() => this.refs.formInputPassword.focus()}
           />
 
-
           <Input
-            inputStyle={styles.input}
-            inputContainerStyle={styles.inputContainer}
-            containerStyle={{ paddingHorizontal: 0, flex: 1 }}
+            label="Amount"
             keyboardType="default"
             returnKeyType="next"
             placeholder="Enter Amount"
@@ -104,9 +128,17 @@ const AirtimeRecharge = props => {
             // onSubmitEditing={() => this.refs.formInputPassword.focus()}
           />
 
-          <View style={{width: '100%', flex: 1}}>
-
-          <View style={[styles.input, { padding: 0, minHeight: 40}]}>
+          <View
+            style={[
+              styles.input,
+              {
+                padding: 0,
+                minHeight: 45,
+                marginTop: 15,
+                marginLeft: 15,
+                width: '90%',
+              },
+            ]}>
             <Picker
               selectedValue={provider}
               style={{
@@ -115,20 +147,19 @@ const AirtimeRecharge = props => {
               }}
               itemStyle={{backgroundColor: 'blue', color: 'green'}}
               onValueChange={(itemValue, itemIndex) => setProvider(itemValue)}>
-                <Picker.Item label="Choose network" />
-              <Picker.Item label="MTN" value="MTN"  />
+              <Picker.Item label="Choose network" />
+              <Picker.Item label="MTN" value="MTN" />
               <Picker.Item label="9mobile" value="9mobile" />
               <Picker.Item label="Airtel" value="Airtel" />
-              <Picker.Item label="Glo" value="Glo" color={"white"} />
-
+              <Picker.Item label="Glo" value="Glo" color={'white'} />
             </Picker>
-          </View>
           </View>
         </View>
         <BlueBtn
           styles={{width: '70%', height: 40}}
           name={'Proceed'}
-          action={() => initiateTransaction()}
+          action={() => verify()}
+          indicator={loading}
         />
       </View>
       <Text style={styles.text}>Hello from notification</Text>
@@ -160,12 +191,12 @@ const styles = StyleSheet.create({
     paddingRight: 0,
   },
   adCont: {
-    height: hp('45%'),
+    height: hp('37%'),
     width: '100%',
-    alignItems: 'center',
-    paddingTop: hp('7%'),
+    // alignItems: 'center',
+    // paddingTop: hp('7%'),
     justifyContent: 'space-evenly',
-   
+    marginTop: hp('10%'),
   },
   input: {
     width: '100%',
@@ -185,8 +216,15 @@ const styles = StyleSheet.create({
     //  marginBottom: 0,
     //  marginTop: 0,
     padding: 0,
-    marginHorizontal: 0
+    marginHorizontal: 0,
   },
 });
 
-export default AirtimeRecharge;
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    countdown: state.countdown,
+  };
+};
+
+export default connect(mapStateToProps)(AirtimeRecharge);

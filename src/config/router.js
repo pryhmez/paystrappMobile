@@ -29,6 +29,7 @@ import AirtimeRecharge from '../components/AirtimeRecharge';
 import Settings from '../components/Settings';
 import SetWithdrawalAccount from '../components/SetWithdrawalAccount';
 import ChangeTransactionPin from '../components/ChangeTransactionPin';
+import WalletSettings from '../components/WalletSettings';
 
 // import Profile from '../components/Profile';
 
@@ -193,6 +194,7 @@ const Main = () => {
       <MainStack.Screen name='ChangePin' component={ChangeTransactionPin}/>
       <MainStack.Screen name='SetWithdrawalAccount' component={SetWithdrawalAccount} />
       <MainStack.Screen name='Verify' component={VerifyNav}/>
+      <MainStack.Screen name='WalletSettings' components={WalletSettings} />
     </MainStack.Navigator>
   )
 }
