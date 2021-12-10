@@ -73,7 +73,8 @@ const App = () => {
           emailVerified,
           phoneVerified,
           accountBalance,
-          transactionPin
+          transactionPin,
+          toggleEye
         } = JSON.parse(result);
 
         if (isEmailVerified) {
@@ -90,7 +91,8 @@ const App = () => {
           emailVerified,
           phoneVerified,
           accountBalance,
-          transactionPin
+          transactionPin,
+          toggleEye
         });
         socket.on('connect', () => {
           // console.warn('============================')

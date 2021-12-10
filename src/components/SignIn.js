@@ -105,40 +105,45 @@ class SignIn extends React.Component {
     if (validationResult.success) {
       this.setState({isSubmitting: true});
 
-      this.props
-        .signInUser(this.state)
-        .then(result => {
-          this.setState({loading: false})
-          // console.warn(result);
-          switch (result.status) {
-            case 200:
-              console.log('==============');
-              break;
-            case 401:
-              console.log('login failed');
-              break;
-            case 402:
-              console.log('incorrect username or password');
-              break;
-            default:
-          }
-        })
-        .catch(err => {
-          this.setState({loading: false})
-          console.log(err);
-          switch (err.status) {
-            case "200":
-              console.log('==============');
-              break;
-            case "401":
-              console.log('login failed');
-              break;
-            case "402":
-              console.log('incorrect username or password');
-              break;
-            default:
-          }
-        });
+      try {
+        this.props
+          .signInUser(this.state)
+          .then(result => {
+            this.setState({loading: false});
+            // console.warn(result);
+            switch (result.status) {
+              case 200:
+                console.log('==============');
+                break;
+              case 401:
+                console.log('login failed');
+                break;
+              case 402:
+                console.log('incorrect username or password');
+                break;
+              default:
+            }
+          })
+          .catch(err => {
+            this.setState({loading: false});
+            console.log(err);
+            switch (err.status) {
+              case '200':
+                console.log('==============');
+                break;
+              case '401':
+                console.log('login failed');
+                break;
+              case '402':
+                console.log('incorrect username or password');
+                break;
+              default:
+            }
+          });
+      } catch (err) {
+        this.setState({isSubmitting: false, loading: false});
+
+      }
     }
     // this.props.navigation.navigate('')
   };
@@ -207,7 +212,7 @@ class SignIn extends React.Component {
               <Button
                 name={'Log In'}
                 action={() => {
-                  this.setState({loading: true})
+                  this.setState({loading: true});
                   this.SignInUser();
                 }}
                 indicator={this.state.loading}

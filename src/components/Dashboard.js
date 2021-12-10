@@ -169,7 +169,7 @@ const Dashboard = props => {
         <ScrollView horizontal={true} style={{marginLeft: wp('5%')}}>
           <SlideCard
             title={'Wallet Balance'}
-            amount={props.user.accountBalance}
+            amount={props.user.toggleEye ? "****" : props.user.accountBalance}
             withdraw={() => props.navigation.navigate('SetWithdrawalAccount', {payout: 'Withdrawal'})}
           />
 

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {connect, useDispatch, useSelector} from 'react-redux';
-import {signOutUser} from '../actions/user';
+import {toggleEye} from '../actions/user';
 import {
   SafeAreaView,
   StatusBar,
@@ -29,13 +29,20 @@ const Item = props => {
   return (
     <TouchableOpacity
       style={{
-        width: '100%',
+        width: '95%',
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
         marginBottom: 10,
         marginTop: 10,
       }}
       onPress={props.action}>
+
+      <Text
+        style={{fontSize: 18, fontFamily: 'NunitoSans-Regular', margin: 10}}>
+        {props.title}
+      </Text>
+
       {props.icon == 'currency-usd-circle-outline' ? (
         <MatIcons
           name={'currency-usd-circle-outline'}
@@ -52,10 +59,6 @@ const Item = props => {
         />
       )}
 
-      <Text
-        style={{fontSize: 18, fontFamily: 'NunitoSans-Regular', margin: 10}}>
-        {props.title}
-      </Text>
     </TouchableOpacity>
   );
 };
@@ -63,9 +66,12 @@ const Item = props => {
 const WalletSettings = props => {
   const dispatch = useDispatch();
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const [eyeOpen, setEyeOpen] = useState(false);
 
-  const logOut = () => {};
+  const toggleEye = () => {
+   //   console.log(props.user.toggleEye)
+     dispatch(props.toggleEye(!props.user.toggleEye))
+  };
 
   return (
     <SafeAreaView style={styles.page}>
@@ -80,11 +86,11 @@ const WalletSettings = props => {
       <View style={styles.container}>
         <Header title={'Settings'} />
 
-        <View style={{width: '100%'}}>
+        <View style={{width: '100%', alignItems: 'center'}}>
           <Item
             title={'Bank Account'}
-            icon={'currency-usd-circle-outline'}
-            action={() => props.navigation.navigate('SetWithdrawalAccount')}
+            icon={props.user.toggleEye ? 'ios-eye-outline' : 'ios-eye-off-outline'}
+            action={() => toggleEye()}
           />
           
         </View>
@@ -170,4 +176,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {signOutUser})(WalletSettings);
+export default connect(mapStateToProps, {toggleEye})(WalletSettings);

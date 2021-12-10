@@ -51,6 +51,10 @@ export const signOutUser = () => {
   }
 }
 
+export const toggleEye = (toggleState) => {
+  return {type: 'TOGGLE_EYE', toggleState}
+}
+
 export const setPin = ({token, id, email, firstName, lastName, emailVerified, phoneVerified, accountBalance, transactionPin}) => {
 
   return dispatch => {

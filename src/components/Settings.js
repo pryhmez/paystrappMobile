@@ -129,7 +129,11 @@ const Settings = props => {
             icon={'key-outline'}
             action={() => setModalVisible(true)}
           />
-          <Item title={'Wallet Settings'} icon={'wallet-outline'} />
+          <Item
+            title={'Wallet Settings'}
+            icon={'wallet-outline'}
+            action={() => props.navigation.navigate('WalletSettings')}
+          />
           <Item
             title={'Log Out'}
             icon={'infinite-outline'}

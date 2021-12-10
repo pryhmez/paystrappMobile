@@ -10,12 +10,14 @@ const initialState = {
   emailVerified: null,
   phoneVerified: null,
   accountBalance: 0,
-  transactionPin: false
+  transactionPin: false,
+  toggleEye: false,
 };
 
 export default function user(state = initialState, action) {
   switch (action.type) {
     case 'ADD_USER':
+      console.log('adding user', '==');
       return {
         ...state,
         token: action.token,
@@ -26,7 +28,8 @@ export default function user(state = initialState, action) {
         emailVerified: action.emailVerified,
         phoneVerified: action.phoneVerified,
         accountBalance: action.accountBalance,
-        transactionPin: action.transactionPin
+        transactionPin: action.transactionPin,
+        toggleEye: action.toggleEye
       };
       break;
     case 'EMAIL_VERIFIED':
@@ -34,6 +37,14 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         emailVerified: true,
+      };
+      break;
+    case 'TOGGLE_EYE':
+      console.log(action.toggleState, '==');
+      persistUser('USER', {...state, toggleEye: action.toggleState});
+      return {
+        ...state,
+        toggleEye: action.toggleState,
       };
       break;
     case 'SIGN_OUT':
@@ -48,7 +59,7 @@ export default function user(state = initialState, action) {
         emailVerified: null,
         phoneVerified: null,
         accountBalance: 0,
-        transactionPin: null
+        transactionPin: null,
       };
       break;
     default:

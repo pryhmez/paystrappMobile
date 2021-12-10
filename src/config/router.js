@@ -194,7 +194,7 @@ const Main = () => {
       <MainStack.Screen name='ChangePin' component={ChangeTransactionPin}/>
       <MainStack.Screen name='SetWithdrawalAccount' component={SetWithdrawalAccount} />
       <MainStack.Screen name='Verify' component={VerifyNav}/>
-      <MainStack.Screen name='WalletSettings' components={WalletSettings} />
+      <MainStack.Screen name='WalletSettings' component={WalletSettings} />
     </MainStack.Navigator>
   )
 }

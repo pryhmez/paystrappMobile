@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from 'react-native';
-import {TextInput, theme} from 'react-native-paper';
+import {TextInput, HelperText, theme} from 'react-native-paper';
 
 const Inputfield = props => {
   const [isfocused, setIsfocused] = useState(false);
@@ -29,6 +29,9 @@ const Inputfield = props => {
           },
         }}
       />
+      <HelperText type="error" visible={props.error} >
+        {props.error}
+      </HelperText>
     </View>
   );
 };

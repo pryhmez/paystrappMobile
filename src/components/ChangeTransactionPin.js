@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
 
 import {connect, useDispatch, useSelector} from 'react-redux';
+import axios from 'axios';
+import { apiConfig  } from '../config/axios';
 
 import Header from './helpers/header';
 import Input from './helpers/inputField';
@@ -16,6 +18,49 @@ const ChangeTransactionPin = props => {
   const [newPin, setNewPin] = useState();
   const [confirmPin, setConfirmPin] = useState();
   const [loading, setLoading] = useState();
+  const [pinError, setPinError] = useState();
+  const [newPinError, setNewPinError] = useState();
+  const [confirmPinError, setConfirmPinError] = useState();
+
+  addPin = () => {
+    setLoading(true)
+    setPinError(false)
+    setNewPinError(false)
+    setConfirmPinError(false)
+    if (pin.length != 4) {
+      setLoading(false)
+      setPinError("Pin must be a 4 digit number.")
+    } else if (newPin.length != 4) {
+      setLoading(false)
+      setNewPinError("New pin must be a 4 digit number")
+    } else if (newPin !== confirmPin) {
+      setLoading(false)
+      setConfirmPinError("Pin mismatch")
+    } else {
+      axios
+        .post(
+          apiConfig.baseUrl + 'transaction/changetransactionpin',
+          {
+            userId: props.user.userId,
+            email: props.user.email,
+            newPin,
+          },
+          {
+            headers: {
+              pin: pin,
+            },
+          },
+        )
+        .then(res => {
+          setLoading(false);
+          console.warn(res.data);
+        })
+        .catch(err => {
+          setLoading(false);
+          console.warn(err.response);
+        });
+    }
+  };
 
   return (
     <SafeAreaView style={styles.page}>
@@ -47,7 +92,7 @@ const ChangeTransactionPin = props => {
             placeholderTextColor="#1D0C47A0"
             value={pin}
             onChangeText={value => setPin(value)}
-            // errorMessage={this.state.emailError}
+            error={pinError}
             onEndEditing={event => event.nativeEvent.text.trim()} // remove leading/traling whitepaces
             // onSubmitEditing={() => this.refs.formInputPassword.focus()}
           />
@@ -60,7 +105,8 @@ const ChangeTransactionPin = props => {
             placeholderTextColor="#1D0C47A0"
             value={newPin}
             onChangeText={value => setNewPin(value)}
-            // errorMessage={this.state.emailError}
+            error={newPinError}
+            secureTextEntry={true}
             onEndEditing={event => event.nativeEvent.text.trim()} // remove leading/traling whitepaces
             // onSubmitEditing={() => this.refs.formInputPassword.focus()}
           />
@@ -73,19 +119,21 @@ const ChangeTransactionPin = props => {
             placeholderTextColor="#1D0C47A0"
             value={confirmPin}
             onChangeText={value => setConfirmPin(value)}
-            // errorMessage={this.state.emailError}
+            error={confirmPinError}
+            secureTextEntry={true}
             onEndEditing={event => event.nativeEvent.text.trim()} // remove leading/traling whitepaces
             // onSubmitEditing={() => this.refs.formInputPassword.focus()}
           />
-             </View>
+        </View>
 
-          <View>
-            <Button
-              name={'Proceed'}
-              styles={{minHeight: 40, marginTop: 100}}
-              action={() => props.navigation.navigate('Verify')}
-            />
-          </View>
+        <View>
+          <Button
+            name={'Proceed'}
+            styles={{minHeight: 40, marginTop: 100}}
+            action={() => addPin()}
+            indicator={loading}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -106,9 +154,9 @@ const styles = StyleSheet.create({
     height: hp('37%'),
     width: '100%',
     justifyContent: 'center',
-   //  paddingTop: hp('3%'),
-   //  backgroundColor: 'green',
-    justifyContent: 'space-evenly'
+    //  paddingTop: hp('3%'),
+    //  backgroundColor: 'green',
+    justifyContent: 'space-evenly',
   },
   adHolder: {
     backgroundColor: '#E7E7E7',

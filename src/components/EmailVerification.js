@@ -55,7 +55,7 @@ const EmailVerification = prop => {
   useEffect(() => {
     console.log(prop.user.transactionPin, '!================');
 
-    if (prop.user.emailVerified.toString() === 'true') {
+    if (prop.user.emailVerified+"" === 'true') {
       setPinset(true);
     } else {
       if (prop.user.email) {
