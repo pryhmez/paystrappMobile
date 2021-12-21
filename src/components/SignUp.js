@@ -164,7 +164,6 @@ class SignUp extends React.Component {
         });
     } else {
       this.setState({loading: false});
-
     }
   };
 
@@ -208,22 +207,22 @@ class SignUp extends React.Component {
                 You are one step away from building a new stream of income.
               </Text>
 
-              {this.state.isSubmitting && (
+              {/* {this.state.isSubmitting && (
                 <ActivityIndicator
                   animating
                   style={[{margin: 0, padding: 0, height: 50}]}
                 />
-              )}
+              )} */}
             </View>
           </View>
 
           <View style={styles.formContainer}>
-            <Text style={{color: 'red', marginBottom: 5}}>
-              {' '}
+           {this.state.error &&  <Text style={{color: 'red', marginBottom: this.state.error &&  5}}>
               {this.state.error && this.state.error}{' '}
-            </Text>
+            </Text>}
 
             <InputField
+              container={{padding: 0}}
               label={'First Name'}
               returnKeyType="next"
               placeholder="First Name"
@@ -232,6 +231,7 @@ class SignUp extends React.Component {
             />
 
             <InputField
+              container={{padding: 0}}
               label={'Last Name'}
               returnKeyType="next"
               placeholder="Last Name"
@@ -240,6 +240,7 @@ class SignUp extends React.Component {
             />
 
             <InputField
+              container={{padding: 0}}
               label={'Email'}
               returnKeyType="next"
               placeholder="Email Address"
@@ -248,6 +249,7 @@ class SignUp extends React.Component {
             />
 
             <InputField
+              container={{padding: 0}}
               label={'Phone'}
               returnKeyType="next"
               placeholder="Phone Number"
@@ -256,6 +258,7 @@ class SignUp extends React.Component {
             />
 
             <InputField
+              container={{padding: 0}}
               label={'Password'}
               returnKeyType="next"
               placeholder="Enter Password"
@@ -265,6 +268,7 @@ class SignUp extends React.Component {
             />
 
             <InputField
+              container={{padding: 0}}
               label={'Re-enter Password'}
               returnKeyType="go"
               returnKeyLabel="Let's go!!"
@@ -343,7 +347,8 @@ const styles = StyleSheet.create({
     // flex: 1,
     height: '15%',
     alignItems: 'center',
-    // backgroundColor: 'cyan'
+    // backgroundColor: 'cyan',
+    justifyContent: 'center'
   },
   logoArea: {
     flex: 0.25,

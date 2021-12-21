@@ -8,6 +8,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {connect} from 'react-redux';
+import { getUserProfile } from '../actions/user';
 
 import {
   widthPercentageToDP as wp,
@@ -121,6 +122,10 @@ const Dashboard = props => {
   const [[hrs, mins, secs], setTime] = useState([0, 0, 0]);
 
   useEffect(() => {
+    props.getUserProfile(props.user.email, props.user.token, props.user.userId);
+  }, [])
+
+  useEffect(() => {
     socket.emit('userid', props.user.userId);
     socket.on('INCOMING_SLOT', (data, currentTime, cb) => {
       console.warn(data);
@@ -173,7 +178,7 @@ const Dashboard = props => {
             withdraw={() => props.navigation.navigate('SetWithdrawalAccount', {payout: 'Withdrawal'})}
           />
 
-          <SlideCard title={'Monthly Earning'} amount={'2000'} />
+          <SlideCard title={'Monthly Earning'} amount={props.user.toggleEye ? "****" : props.user.accountBalance} />
         </ScrollView>
       </View>
 
@@ -338,4 +343,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps, {getUserProfile})(Dashboard);

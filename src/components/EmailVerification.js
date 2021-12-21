@@ -53,13 +53,13 @@ const EmailVerification = prop => {
   }
 
   useEffect(() => {
-    console.log(prop.user.transactionPin, '!================');
+    // console.log(prop.user.transactionPin, '!================');
 
     if (prop.user.emailVerified+"" === 'true') {
       setPinset(true);
     } else {
       if (prop.user.email) {
-        // console.log(prop.user.email);
+        console.log(prop.user.email);
         prop.verifyEmail(prop.user.email);
       }
     }
@@ -129,7 +129,7 @@ const EmailVerification = prop => {
                     width: '100%',
                     flexDirection: 'row',
                   }}
-                  onPress={() => signInWithPhoneNumber(phone)}>
+                  onPress={() => verify()}>
                   <Text style={{color: '#1D0C47'}}>Resend</Text>
                 </TouchableOpacity>
               </>

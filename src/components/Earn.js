@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {connect, useDispatch} from 'react-redux';
+import { getUserProfile  } from '../actions/user';
+
 import {
   SafeAreaView,
   StatusBar,
@@ -24,6 +26,7 @@ import {
 } from '@react-native-firebase/admob';
 import MyModal from './helpers/myModal';
 import PaperModal from './helpers/PaperModal';
+import {socket, connectFunction} from '../config/socketConfig';
 
 import {
   widthPercentageToDP as wp,
@@ -31,10 +34,12 @@ import {
 } from 'react-native-responsive-screen';
 
 const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
+// const interstitial = RewardedAd.createForAdRequest(TestIds.REWARDED);
 
 const Earn = props => {
   // const value = useSelector(state => state.countdown);
   const dispatch = useDispatch();
+  let viewClocker;
 
   const [sessionComplete, setSessionComplete] = useState(!true);
 
@@ -43,7 +48,10 @@ const Earn = props => {
   const [loaded, setLoaded] = useState(false);
   const [event, setEvent] = useState();
   const [vpnOn, setVpnOn] = useState(false);
-  const [hideModal, setHideModal] = useState(true)
+  const [hideModal, setHideModal] = useState(true);
+  const [startTime, setStartTime] = useState();
+  const [viewTime, setViewTime] = useState();
+  let startT = 0;
 
   useEffect(() => {
     // Subscribe
@@ -60,11 +68,27 @@ const Earn = props => {
 
     const eventListener = interstitial.onAdEvent(type => {
       setEvent(type);
-
+      console.log(type);
       if (type === AdEventType.LOADED) {
         setLoaded(true);
       } else {
         setLoaded(false);
+        interstitial.load();
+      }
+
+      if (type === AdEventType.OPENED) {
+        const time = new Date().getTime();
+        startT = time;
+      }
+
+      if (type === AdEventType.CLOSED) {
+        const time = new Date().getTime();
+        const millis = time - startT;
+        // console.log(Math.floor(millis / 1000));
+        socket.emit('VIEW', {userId: props.user.userId, viewTime: Math.floor(millis / 1000)});
+        props.getUserProfile(props.user.email, props.user.token, props.user.userId);
+        interstitial.load();
+
       }
     });
 
@@ -79,14 +103,8 @@ const Earn = props => {
     };
   }, []);
 
-  showAlertBox = () => {
-    // Alert.alert(
-    //   'Attention',
-    //   'Please turn on your vpn as it would help us track your earning better' +
-    //     '.',
-    //   [{text: 'OK'}],
-    //   {cancelable: false},
-    // );
+  showAd = async () => {
+    await interstitial.show();
   };
 
   const showToastWithGravityAndOffset = () => {
@@ -154,7 +172,7 @@ const Earn = props => {
             borderRadius: 10,
             borderColor: '#FF910099',
             justifyContent: 'center',
-            borderWidth: 1
+            borderWidth: 1,
           }}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Ionicons
@@ -265,7 +283,8 @@ const Earn = props => {
                     if (!vpnOn) {
                       showToastWithGravityAndOffset;
                     } else {
-                      interstitial.show();
+                      showAd();
+                      // interstitial.show();
                     }
                   }}
                 />
@@ -353,4 +372,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Earn);
+export default connect(mapStateToProps, { getUserProfile })(Earn);

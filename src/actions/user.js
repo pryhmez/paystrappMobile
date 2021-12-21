@@ -13,7 +13,7 @@ export const addUser = (
   emailVerified,
   phoneVerified,
   accountBalance,
-  transactionPin
+  transactionPin,
 ) => {
   persistUser('USER', {
     token,
@@ -24,7 +24,7 @@ export const addUser = (
     emailVerified,
     phoneVerified,
     accountBalance,
-    transactionPin
+    transactionPin,
   });
   return {
     type: 'ADD_USER',
@@ -36,7 +36,7 @@ export const addUser = (
     emailVerified,
     phoneVerified,
     accountBalance,
-    transactionPin
+    transactionPin,
   };
 };
 
@@ -47,16 +47,25 @@ export const emailVerified = () => {
 export const signOutUser = () => {
   // AsyncStorage.clear();
   return {
-    type: 'SIGN_OUT'
-  }
-}
+    type: 'SIGN_OUT',
+  };
+};
 
-export const toggleEye = (toggleState) => {
-  return {type: 'TOGGLE_EYE', toggleState}
-}
+export const toggleEye = toggleState => {
+  return {type: 'TOGGLE_EYE', toggleState};
+};
 
-export const setPin = ({token, id, email, firstName, lastName, emailVerified, phoneVerified, accountBalance, transactionPin}) => {
-
+export const setPin = ({
+  token,
+  id,
+  email,
+  firstName,
+  lastName,
+  emailVerified,
+  phoneVerified,
+  accountBalance,
+  transactionPin,
+}) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
       dispatch(
@@ -69,14 +78,14 @@ export const setPin = ({token, id, email, firstName, lastName, emailVerified, ph
           emailVerified,
           phoneVerified,
           accountBalance,
-          transactionPin
+          transactionPin,
         ),
       );
 
-      resolve("done");
-    })
-  }
-}
+      resolve('done');
+    });
+  };
+};
 
 export const signInUser = ({email, password}) => {
   return dispatch => {
@@ -101,7 +110,7 @@ export const signInUser = ({email, password}) => {
               res.user.emailVerified,
               res.user.phoneVerified,
               res.user.accountBalance,
-              res.user.transactionPin
+              res.user.transactionPin,
             ),
           );
 
@@ -170,9 +179,11 @@ export const verifyEmail = (email, code) => {
   if (!code) {
     return dispatch => {
       return new Promise((resolve, reject) => {
-        client.post('auth/verifyemail', {email}).then(res => {
-          console.log(res.data);
-        });
+        axios
+          .post(apiConfig.baseUrl + 'auth/verifyemail', {email})
+          .then(res => {
+            console.log(res.data, 'verifying email');
+          });
       });
     };
   }
@@ -205,37 +216,47 @@ export const verifyEmail = (email, code) => {
   }
 };
 
-export const getUserProfile = (userId, owner) => {
-  // console.log(userId)
-  return (dispatch, getState) => {
+export const getUserProfile = (email, token, userId) => {
+  return dispatch => {
     return new Promise((resolve, reject) => {
+      // console.log('about to hit');
+
       axios
-        .post(apiConfig.baseUrl + 'user/getmyprofile', {
-          userId,
+        .post(apiConfig.baseUrl + 'auth/getuserprofile', {
+          email,
+          userId
         })
         .then(response => {
-          let res = response.data.data;
-          // console.log(owner);
+          let res = response.data;
+          // socket.emit('userid', res.user._id);
+          dispatch(
+            addUser(
+              res.token,
+              res.user._id,
+              res.user.email,
+              res.user.firstName,
+              res.user.lastName,
+              res.user.emailVerified,
+              res.user.phoneVerified,
+              res.user.accountBalance,
+              res.user.transactionPin,
+            ),
+          );
 
-          owner &&
-            dispatch(
-              addUser(
-                // res.token,
-                'efwevergeagaergraheragabrebae',
-                res.user._id,
-                res.user.email,
-                res.user.firstName + res.user.lastName,
-              ),
-            );
-
-          // console.warn(response.data.data)
           if (response) {
-            return resolve(response.data.data);
+            return resolve(response.data.message);
           }
         })
         .catch(err => {
           // dispatch({ type: SIGNUP_USER_FAILED, payload: true });
-          return reject({message: 'something went wrong' + String(err)});
+          const response = err.response;
+          return reject({
+            message: response.data.message
+              ? response.data.message
+              : 'something went wrong',
+            status: String(response.status),
+            data: response.data,
+          });
         });
     });
   };

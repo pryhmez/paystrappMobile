@@ -9,6 +9,7 @@
 import React, {useState, useEffect} from 'react';
 import {Provider} from 'react-redux';
 import {Provider as PaperProvider, DefaultTheme} from 'react-native-paper';
+import { connect } from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import io from 'socket.io-client';
 import {socket} from './src/config/socketConfig';
@@ -26,6 +27,8 @@ import {
   Main,
 } from './src/config/router';
 import AuthPage from './src/components/AuthPage';
+
+import NavComponent from './src/config/NavComponent';
 
 import {
   SafeAreaView,
@@ -74,7 +77,7 @@ const App = () => {
           phoneVerified,
           accountBalance,
           transactionPin,
-          toggleEye
+          toggleEye,
         } = JSON.parse(result);
 
         if (isEmailVerified) {
@@ -92,7 +95,7 @@ const App = () => {
           phoneVerified,
           accountBalance,
           transactionPin,
-          toggleEye
+          toggleEye,
         });
         socket.on('connect', () => {
           // console.warn('============================')
@@ -108,12 +111,15 @@ const App = () => {
 
     store.subscribe(() => {
       // if (store.getState().user.token != '') {
-      // console.log(store.getState().user, isSignedIn)
-      if (store.getState().user.token) {
+      if (store.getState().user.token !== '') {
         setIsSignedIn(true);
+        // console.log(store.getState().user, isSignedIn, "===")
       }
       // console.log(store.getState().user.emailVerified, store.getState().user.emailVerified === 'true', store.getState().user.transactionPin )
-      if (store.getState().user.emailVerified+"" === 'true' && store.getState().user.transactionPin) {
+      if (
+        store.getState().user.emailVerified + '' === 'true' &&
+        store.getState().user.transactionPin
+      ) {
         // if (store.getState().user.emailVerified === true) {
         setIsEmailVerified(true);
       }
@@ -123,6 +129,13 @@ const App = () => {
       setIsLoading(false);
     }, 3000);
   }, []);
+
+  useEffect(() => {
+    console.log(isSignedIn, '111111111')
+    if (store.getState().user.token !== '') {
+      setIsSignedIn(true);
+    }
+  });
 
   const theme = {
     ...DefaultTheme,
@@ -144,12 +157,12 @@ const App = () => {
 
       <Provider store={store}>
         <PaperProvider theme={theme}>
-          <NavigationContainer>
+          {/* <NavigationContainer>
+            {console.log(isSignedIn, '=============')}
             {isLoading ? (
               <SplashNav />
             ) : isSignedIn ? (
               // ) : store.getState().user.token ? (
-
               isEmailVerified ? (
                 // <TabsNav />
                 <Main />
@@ -159,12 +172,15 @@ const App = () => {
             ) : (
               <AuthScreenNav />
             )}
-          </NavigationContainer>
+          </NavigationContainer> */}
+          <NavComponent isLoading={isLoading} isSignedIn={isSignedIn} isEmailVerified={isEmailVerified} />
         </PaperProvider>
       </Provider>
     </SafeAreaProvider>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   sectionContainer: {

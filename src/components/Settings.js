@@ -139,6 +139,7 @@ const Settings = props => {
             icon={'infinite-outline'}
             action={() => {
               props.signOutUser();
+                // props.navigation.navigate('SignIn');
               // props.navigation.navigate()
             }}
           />
