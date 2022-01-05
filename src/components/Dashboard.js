@@ -74,7 +74,7 @@ const SlideCard = props => {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{
               width: '100%',
               height: '100%',
@@ -96,7 +96,7 @@ const SlideCard = props => {
               }}>
               Fund from bank{' '}
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </View>
@@ -171,22 +171,22 @@ const Dashboard = props => {
       </View>
 
       <View style={styles.console}>
-        <ScrollView horizontal={true} style={{marginLeft: wp('5%')}}>
+        <ScrollView horizontal={true} style={{marginLeft: wp('0%')}}>
           <SlideCard
             title={'Wallet Balance'}
-            amount={props.user.toggleEye ? "****" : props.user.accountBalance}
+            amount={props.user.toggleEye ? "****" : Math.round(parseFloat(props.user.accountBalance) * 10000000)/10000000}
             withdraw={() => props.navigation.navigate('SetWithdrawalAccount', {payout: 'Withdrawal'})}
           />
 
-          <SlideCard title={'Monthly Earning'} amount={props.user.toggleEye ? "****" : props.user.accountBalance} />
+          {/* <SlideCard title={'Monthly Earning'} amount={props.user.toggleEye ? "****" : props.user.accountBalance} /> */}
         </ScrollView>
       </View>
 
       <View style={styles.slider}>
         <ScrollView horizontal={true} style={{marginLeft: wp('5%')}}>
           <AdsSlider />
-          <AdsSlider />
-          <AdsSlider />
+          {/* <AdsSlider />
+          <AdsSlider /> */}
         </ScrollView>
       </View>
 
@@ -225,7 +225,8 @@ const Dashboard = props => {
             Earn 5% of your referal’s earning for 6 months
           </Text>
           <Text style={{fontFamily: 'Raleway-Regular', color: '#1E0A9D'}}>
-            Paystrapp.com/user55779
+            Paystrapp.com/{props.user.referralCode}
+            {/* {console.log(props.user.referralCode, "//////////////////")} */}
           </Text>
         </View>
       </View>

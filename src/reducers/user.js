@@ -12,12 +12,13 @@ const initialState = {
   accountBalance: 0,
   transactionPin: false,
   toggleEye: false,
+  referralCode: ''
 };
 
 export default function user(state = initialState, action) {
   switch (action.type) {
     case 'ADD_USER':
-      console.log('adding user', '==');
+      console.log('adding user', action.referralCode);
       return {
         ...state,
         token: action.token,
@@ -29,7 +30,8 @@ export default function user(state = initialState, action) {
         phoneVerified: action.phoneVerified,
         accountBalance: action.accountBalance,
         transactionPin: action.transactionPin,
-        toggleEye: action.toggleEye
+        toggleEye: action.toggleEye,
+        referralCode: action.referralCode
       };
       break;
     case 'EMAIL_VERIFIED':

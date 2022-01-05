@@ -7,14 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00177047C239441381939DC3 /* NunitoSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97540118B6354A0BBC79B2A3 /* NunitoSans-Italic.ttf */; };
 		00E356F31AD99517003FC87E /* paystrappTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* paystrappTests.m */; };
 		0256F4B482C04C0A87A0ED3C /* Raleway-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F755CD7A47A84DD1A4F37021 /* Raleway-LightItalic.ttf */; };
 		0286999581E44D29AAF978FD /* Raleway-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 74BC44F6E9D04BC09BD2F78B /* Raleway-Medium.ttf */; };
+		039FDCCC5AE447E8ADB4A4EF /* NunitoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A02193A5D17049A0878C929F /* NunitoSans-Regular.ttf */; };
 		068A6BDA2BD99F80EC46ADF5 /* libPods-paystrapp-paystrappTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8E6C3BE9EAE7E52905B3B2 /* libPods-paystrapp-paystrappTests.a */; };
+		0FAB9775BE1C4315BB3EA5C8 /* NunitoSans-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0616012D1E2A4C4BBC21C29C /* NunitoSans-BlackItalic.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		13B68FC0EDAB4FD3A2CE19EE /* NunitoSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9E634BCE2634CBDB2BA8FFE /* NunitoSans-LightItalic.ttf */; };
 		14404D9A57052E00A4EF3523 /* libPods-paystrapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B83DDDA8EC79EA2D6124581A /* libPods-paystrapp.a */; };
+		2F47D0C600094E5CAD613C85 /* NunitoSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D610FFC916F54FCF99F91FE8 /* NunitoSans-ExtraBold.ttf */; };
 		2F805383502146839B6922F6 /* Raleway-Italic-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473E27D8D82242D0882A4755 /* Raleway-Italic-VariableFont_wght.ttf */; };
 		354BF126CEBB442D946BFCBF /* Raleway-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EE8D09A14CED4023BDF7AB41 /* Raleway-ThinItalic.ttf */; };
 		3ACD42650D1B4FA9ACCF60D3 /* Raleway-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A7140D41D394454A8D42DEDE /* Raleway-VariableFont_wght.ttf */; };
@@ -22,33 +27,29 @@
 		44BD5B93E36B4AF09E985768 /* Raleway-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D3335BB1DCDC4C9B938588CC /* Raleway-ExtraBoldItalic.ttf */; };
 		493E9D75E5D34EEE956984AB /* Raleway-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A9C48D0E5D940C697FDB624 /* Raleway-ExtraLight.ttf */; };
 		5CB6FB710CF0466DA9D370F8 /* Raleway-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 911C9B7B113A4F169E847136 /* Raleway-Italic.ttf */; };
+		678D9DD9C8E14EA9BCE31629 /* NunitoSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C09DE4C5D4564D8FB32D1484 /* NunitoSans-Black.ttf */; };
 		707334B5DE8B4E878145567B /* Raleway-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1ACA3D389BA64A0EA8D1A71C /* Raleway-Light.ttf */; };
 		75878DC039F54F5DBB7A9B50 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A0DCBEAB11E44A4094538A02 /* Raleway-Regular.ttf */; };
+		75A4CDE0F6ED4C98A993290C /* NunitoSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11427F2F01A2489D83566555 /* NunitoSans-SemiBoldItalic.ttf */; };
+		7DFCCF5288A94F849FA79BDE /* NunitoSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2857FF1F3B41598B733EAE /* NunitoSans-Light.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		8F8F7180EE784EB580C0F094 /* NunitoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C4C3230C9A7A4EC1AA2D6EA8 /* NunitoSans-Bold.ttf */; };
+		9C3EC3CCE6CA4BBF912DC116 /* NunitoSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2FD08023B9F2459188A77D20 /* NunitoSans-SemiBold.ttf */; };
 		A16F013B6FF04E50AD17924F /* Raleway-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25B50D9ADED34C85B6A38184 /* Raleway-Black.ttf */; };
 		B581A59A44F6439F9C1972FC /* Raleway-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E808A925F694897AEA53038 /* Raleway-ExtraLightItalic.ttf */; };
+		C44DA27AB9AA46FA8DAA5F2A /* NunitoSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B63EB21EC1AE46169D60FFE4 /* NunitoSans-ExtraBoldItalic.ttf */; };
 		C6B1CAEE6245416489F44E2A /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AF6CD5A6C3C45CB85C0CF15 /* Raleway-Bold.ttf */; };
+		C9C953E0E6344720BAD456B0 /* NunitoSans-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2D94004CF2B4B0AB08D23E7 /* NunitoSans-ExtraLight.ttf */; };
+		D158F90040054734AA2FAEB8 /* NunitoSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76A943286E1F41DDBA940EC7 /* NunitoSans-BoldItalic.ttf */; };
 		D23AA5AE93B443F1972E3951 /* Raleway-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5D30FFEEBF834071B35BE2D1 /* Raleway-BlackItalic.ttf */; };
 		D33117D114324E0EAAA7601D /* Raleway-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 67A3785476334459B6B17DC2 /* Raleway-ExtraBold.ttf */; };
 		D648A582831F4D03A2DD1FD0 /* Raleway-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C79B92ACABB9478395D0C903 /* Raleway-SemiBoldItalic.ttf */; };
+		DFFE811E452944FF89E2CF7B /* NunitoSans-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 730D24B9B3CA42EEBB020675 /* NunitoSans-ExtraLightItalic.ttf */; };
 		E6BCEF917AA943189E77BCED /* Raleway-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DAC9BF737A84337887B0AA2 /* Raleway-SemiBold.ttf */; };
 		E802D37D84714A6AB5DD6961 /* Raleway-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52775ACCC7FF49B4BD70408D /* Raleway-MediumItalic.ttf */; };
 		F5DAAD543E474BED9E8FD3B1 /* Raleway-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 952578B85B734BC499D65266 /* Raleway-BoldItalic.ttf */; };
-		FAB62F08270BEAA40037A261 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAB62F07270BEAA40037A261 /* GoogleService-Info.plist */; };
-		678D9DD9C8E14EA9BCE31629 /* NunitoSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C09DE4C5D4564D8FB32D1484 /* NunitoSans-Black.ttf */; };
-		0FAB9775BE1C4315BB3EA5C8 /* NunitoSans-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0616012D1E2A4C4BBC21C29C /* NunitoSans-BlackItalic.ttf */; };
-		8F8F7180EE784EB580C0F094 /* NunitoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C4C3230C9A7A4EC1AA2D6EA8 /* NunitoSans-Bold.ttf */; };
-		D158F90040054734AA2FAEB8 /* NunitoSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76A943286E1F41DDBA940EC7 /* NunitoSans-BoldItalic.ttf */; };
-		2F47D0C600094E5CAD613C85 /* NunitoSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D610FFC916F54FCF99F91FE8 /* NunitoSans-ExtraBold.ttf */; };
-		C44DA27AB9AA46FA8DAA5F2A /* NunitoSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B63EB21EC1AE46169D60FFE4 /* NunitoSans-ExtraBoldItalic.ttf */; };
-		C9C953E0E6344720BAD456B0 /* NunitoSans-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2D94004CF2B4B0AB08D23E7 /* NunitoSans-ExtraLight.ttf */; };
-		DFFE811E452944FF89E2CF7B /* NunitoSans-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 730D24B9B3CA42EEBB020675 /* NunitoSans-ExtraLightItalic.ttf */; };
-		00177047C239441381939DC3 /* NunitoSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97540118B6354A0BBC79B2A3 /* NunitoSans-Italic.ttf */; };
-		7DFCCF5288A94F849FA79BDE /* NunitoSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2857FF1F3B41598B733EAE /* NunitoSans-Light.ttf */; };
-		13B68FC0EDAB4FD3A2CE19EE /* NunitoSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9E634BCE2634CBDB2BA8FFE /* NunitoSans-LightItalic.ttf */; };
-		039FDCCC5AE447E8ADB4A4EF /* NunitoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A02193A5D17049A0878C929F /* NunitoSans-Regular.ttf */; };
-		9C3EC3CCE6CA4BBF912DC116 /* NunitoSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2FD08023B9F2459188A77D20 /* NunitoSans-SemiBold.ttf */; };
-		75A4CDE0F6ED4C98A993290C /* NunitoSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11427F2F01A2489D83566555 /* NunitoSans-SemiBoldItalic.ttf */; };
+		FA414D7F277E310C00E2B8DE /* react-native-projects in Resources */ = {isa = PBXBuildFile; fileRef = FA414D7E277E310C00E2B8DE /* react-native-projects */; };
+		FA414D83277E310C00E2B8DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA414D82277E310C00E2B8DE /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +66,9 @@
 		00E356EE1AD99517003FC87E /* paystrappTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = paystrappTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* paystrappTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = paystrappTests.m; sourceTree = "<group>"; };
+		0616012D1E2A4C4BBC21C29C /* NunitoSans-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NunitoSans-BlackItalic.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-BlackItalic.ttf"; sourceTree = "<group>"; };
 		08BEDDED064B4A7F84F67507 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
+		11427F2F01A2489D83566555 /* NunitoSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NunitoSans-SemiBoldItalic.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* paystrapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = paystrapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = paystrapp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = paystrapp/AppDelegate.m; sourceTree = "<group>"; };
@@ -73,8 +76,10 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = paystrapp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = paystrapp/main.m; sourceTree = "<group>"; };
 		1ACA3D389BA64A0EA8D1A71C /* Raleway-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Light.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-Light.ttf"; sourceTree = "<group>"; };
+		1F2857FF1F3B41598B733EAE /* NunitoSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NunitoSans-Light.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-Light.ttf"; sourceTree = "<group>"; };
 		23EA47EDC9304965A3882A8A /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		25B50D9ADED34C85B6A38184 /* Raleway-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Black.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-Black.ttf"; sourceTree = "<group>"; };
+		2FD08023B9F2459188A77D20 /* NunitoSans-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NunitoSans-SemiBold.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		3A28B1C988864781BA6DD098 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		3EA95EE1A33E3BA0C71C5B70 /* Pods-paystrapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-paystrapp.release.xcconfig"; path = "Target Support Files/Pods-paystrapp/Pods-paystrapp.release.xcconfig"; sourceTree = "<group>"; };
 		45CC9CC378F647F08049D9EC /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
@@ -84,8 +89,10 @@
 		5D30FFEEBF834071B35BE2D1 /* Raleway-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-BlackItalic.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-BlackItalic.ttf"; sourceTree = "<group>"; };
 		67A3785476334459B6B17DC2 /* Raleway-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-ExtraBold.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-ExtraBold.ttf"; sourceTree = "<group>"; };
 		69EDF401E0ED486180FFFB9F /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
+		730D24B9B3CA42EEBB020675 /* NunitoSans-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NunitoSans-ExtraLightItalic.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		740E654C803B4BE7A2A8CB69 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		74BC44F6E9D04BC09BD2F78B /* Raleway-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Medium.ttf"; path = "../src/assets/fonts/Raleway-Medium.ttf"; sourceTree = "<group>"; };
+		76A943286E1F41DDBA940EC7 /* NunitoSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NunitoSans-BoldItalic.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		786FDBC1DD0E451FAE680B86 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		7D8E6C3BE9EAE7E52905B3B2 /* libPods-paystrapp-paystrappTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-paystrapp-paystrappTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = paystrapp/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -94,44 +101,39 @@
 		8DAC9BF737A84337887B0AA2 /* Raleway-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-SemiBold.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-SemiBold.ttf"; sourceTree = "<group>"; };
 		911C9B7B113A4F169E847136 /* Raleway-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Italic.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-Italic.ttf"; sourceTree = "<group>"; };
 		952578B85B734BC499D65266 /* Raleway-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-BoldItalic.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-BoldItalic.ttf"; sourceTree = "<group>"; };
+		97540118B6354A0BBC79B2A3 /* NunitoSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NunitoSans-Italic.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-Italic.ttf"; sourceTree = "<group>"; };
 		9A9C48D0E5D940C697FDB624 /* Raleway-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-ExtraLight.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-ExtraLight.ttf"; sourceTree = "<group>"; };
 		9AF6CD5A6C3C45CB85C0CF15 /* Raleway-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Bold.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-Bold.ttf"; sourceTree = "<group>"; };
 		9E808A925F694897AEA53038 /* Raleway-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-ExtraLightItalic.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		A02193A5D17049A0878C929F /* NunitoSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NunitoSans-Regular.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-Regular.ttf"; sourceTree = "<group>"; };
 		A0DCBEAB11E44A4094538A02 /* Raleway-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Regular.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-Regular.ttf"; sourceTree = "<group>"; };
 		A41DFF53C6D24EF5BAD4E0EB /* Raleway-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Thin.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-Thin.ttf"; sourceTree = "<group>"; };
 		A4B10C03DA844730057A6854 /* Pods-paystrappTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-paystrappTests.release.xcconfig"; path = "Target Support Files/Pods-paystrappTests/Pods-paystrappTests.release.xcconfig"; sourceTree = "<group>"; };
 		A7140D41D394454A8D42DEDE /* Raleway-VariableFont_wght.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-VariableFont_wght.ttf"; path = "../src/assets/fonts/Raleway/Raleway-VariableFont_wght.ttf"; sourceTree = "<group>"; };
+		A9E634BCE2634CBDB2BA8FFE /* NunitoSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NunitoSans-LightItalic.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		B2D94004CF2B4B0AB08D23E7 /* NunitoSans-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NunitoSans-ExtraLight.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-ExtraLight.ttf"; sourceTree = "<group>"; };
+		B63EB21EC1AE46169D60FFE4 /* NunitoSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NunitoSans-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		B695C15F610C4EB19977138C /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		B83DDDA8EC79EA2D6124581A /* libPods-paystrapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-paystrapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB471E2BFF5748B69569C073 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		BD6D1BBEAC3CD1C15FF3EA91 /* Pods-paystrapp-paystrappTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-paystrapp-paystrappTests.release.xcconfig"; path = "Target Support Files/Pods-paystrapp-paystrappTests/Pods-paystrapp-paystrappTests.release.xcconfig"; sourceTree = "<group>"; };
+		C09DE4C5D4564D8FB32D1484 /* NunitoSans-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NunitoSans-Black.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-Black.ttf"; sourceTree = "<group>"; };
+		C4C3230C9A7A4EC1AA2D6EA8 /* NunitoSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NunitoSans-Bold.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-Bold.ttf"; sourceTree = "<group>"; };
 		C79B92ACABB9478395D0C903 /* Raleway-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-SemiBoldItalic.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		C8FD0683369A42BC91B89425 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		CEA6D6C55AFA41EAB2551B6A /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		D0F695D38A3A4FBFB8184D17 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		D3335BB1DCDC4C9B938588CC /* Raleway-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		D610FFC916F54FCF99F91FE8 /* NunitoSans-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NunitoSans-ExtraBold.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-ExtraBold.ttf"; sourceTree = "<group>"; };
 		DCC64B549E883A0C3D1BC800 /* Pods-paystrapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-paystrapp.debug.xcconfig"; path = "Target Support Files/Pods-paystrapp/Pods-paystrapp.debug.xcconfig"; sourceTree = "<group>"; };
 		E30392FAC69F444B833ADEFC /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EE8D09A14CED4023BDF7AB41 /* Raleway-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-ThinItalic.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-ThinItalic.ttf"; sourceTree = "<group>"; };
 		F598FA4D910E4E3A8AA07838 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		F755CD7A47A84DD1A4F37021 /* Raleway-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-LightItalic.ttf"; path = "../src/assets/fonts/Raleway/static/Raleway-LightItalic.ttf"; sourceTree = "<group>"; };
-		FAB62F07270BEAA40037A261 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FA414D7E277E310C00E2B8DE /* react-native-projects */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "react-native-projects"; path = ../..; sourceTree = "<group>"; };
+		FA414D82277E310C00E2B8DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FF68D9344F3E46AC8AE0CF8E /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
-		C09DE4C5D4564D8FB32D1484 /* NunitoSans-Black.ttf */ = {isa = PBXFileReference; name = "NunitoSans-Black.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		0616012D1E2A4C4BBC21C29C /* NunitoSans-BlackItalic.ttf */ = {isa = PBXFileReference; name = "NunitoSans-BlackItalic.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-BlackItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		C4C3230C9A7A4EC1AA2D6EA8 /* NunitoSans-Bold.ttf */ = {isa = PBXFileReference; name = "NunitoSans-Bold.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		76A943286E1F41DDBA940EC7 /* NunitoSans-BoldItalic.ttf */ = {isa = PBXFileReference; name = "NunitoSans-BoldItalic.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		D610FFC916F54FCF99F91FE8 /* NunitoSans-ExtraBold.ttf */ = {isa = PBXFileReference; name = "NunitoSans-ExtraBold.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		B63EB21EC1AE46169D60FFE4 /* NunitoSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; name = "NunitoSans-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		B2D94004CF2B4B0AB08D23E7 /* NunitoSans-ExtraLight.ttf */ = {isa = PBXFileReference; name = "NunitoSans-ExtraLight.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		730D24B9B3CA42EEBB020675 /* NunitoSans-ExtraLightItalic.ttf */ = {isa = PBXFileReference; name = "NunitoSans-ExtraLightItalic.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-ExtraLightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		97540118B6354A0BBC79B2A3 /* NunitoSans-Italic.ttf */ = {isa = PBXFileReference; name = "NunitoSans-Italic.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		1F2857FF1F3B41598B733EAE /* NunitoSans-Light.ttf */ = {isa = PBXFileReference; name = "NunitoSans-Light.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		A9E634BCE2634CBDB2BA8FFE /* NunitoSans-LightItalic.ttf */ = {isa = PBXFileReference; name = "NunitoSans-LightItalic.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-LightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		A02193A5D17049A0878C929F /* NunitoSans-Regular.ttf */ = {isa = PBXFileReference; name = "NunitoSans-Regular.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		2FD08023B9F2459188A77D20 /* NunitoSans-SemiBold.ttf */ = {isa = PBXFileReference; name = "NunitoSans-SemiBold.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		11427F2F01A2489D83566555 /* NunitoSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "NunitoSans-SemiBoldItalic.ttf"; path = "../src/assets/fonts/Nunito_Sans/NunitoSans-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,7 +189,8 @@
 		13B07FAE1A68108700A75B9A /* paystrapp */ = {
 			isa = PBXGroup;
 			children = (
-				FAB62F07270BEAA40037A261 /* GoogleService-Info.plist */,
+				FA414D7E277E310C00E2B8DE /* react-native-projects */,
+				FA414D82277E310C00E2B8DE /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -397,11 +400,13 @@
 				0286999581E44D29AAF978FD /* Raleway-Medium.ttf in Resources */,
 				2F805383502146839B6922F6 /* Raleway-Italic-VariableFont_wght.ttf in Resources */,
 				3ACD42650D1B4FA9ACCF60D3 /* Raleway-VariableFont_wght.ttf in Resources */,
+				FA414D7F277E310C00E2B8DE /* react-native-projects in Resources */,
 				A16F013B6FF04E50AD17924F /* Raleway-Black.ttf in Resources */,
 				D23AA5AE93B443F1972E3951 /* Raleway-BlackItalic.ttf in Resources */,
 				C6B1CAEE6245416489F44E2A /* Raleway-Bold.ttf in Resources */,
 				F5DAAD543E474BED9E8FD3B1 /* Raleway-BoldItalic.ttf in Resources */,
 				D33117D114324E0EAAA7601D /* Raleway-ExtraBold.ttf in Resources */,
+				FA414D83277E310C00E2B8DE /* GoogleService-Info.plist in Resources */,
 				44BD5B93E36B4AF09E985768 /* Raleway-ExtraBoldItalic.ttf in Resources */,
 				493E9D75E5D34EEE956984AB /* Raleway-ExtraLight.ttf in Resources */,
 				B581A59A44F6439F9C1972FC /* Raleway-ExtraLightItalic.ttf in Resources */,
@@ -411,7 +416,6 @@
 				E802D37D84714A6AB5DD6961 /* Raleway-MediumItalic.ttf in Resources */,
 				75878DC039F54F5DBB7A9B50 /* Raleway-Regular.ttf in Resources */,
 				E6BCEF917AA943189E77BCED /* Raleway-SemiBold.ttf in Resources */,
-				FAB62F08270BEAA40037A261 /* GoogleService-Info.plist in Resources */,
 				D648A582831F4D03A2DD1FD0 /* Raleway-SemiBoldItalic.ttf in Resources */,
 				43651B8109B946878D32E7B0 /* Raleway-Thin.ttf in Resources */,
 				354BF126CEBB442D946BFCBF /* Raleway-ThinItalic.ttf in Resources */,

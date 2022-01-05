@@ -14,6 +14,7 @@ export const addUser = (
   phoneVerified,
   accountBalance,
   transactionPin,
+  referralCode
 ) => {
   persistUser('USER', {
     token,
@@ -25,6 +26,7 @@ export const addUser = (
     phoneVerified,
     accountBalance,
     transactionPin,
+    referralCode
   });
   return {
     type: 'ADD_USER',
@@ -37,6 +39,7 @@ export const addUser = (
     phoneVerified,
     accountBalance,
     transactionPin,
+    referralCode
   };
 };
 
@@ -65,6 +68,7 @@ export const setPin = ({
   phoneVerified,
   accountBalance,
   transactionPin,
+  referralCode
 }) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
@@ -79,6 +83,7 @@ export const setPin = ({
           phoneVerified,
           accountBalance,
           transactionPin,
+          referralCode
         ),
       );
 
@@ -111,6 +116,7 @@ export const signInUser = ({email, password}) => {
               res.user.phoneVerified,
               res.user.accountBalance,
               res.user.transactionPin,
+              res.user.referralCode
             ),
           );
 
@@ -240,6 +246,7 @@ export const getUserProfile = (email, token, userId) => {
               res.user.phoneVerified,
               res.user.accountBalance,
               res.user.transactionPin,
+              res.user.referralCode
             ),
           );
 

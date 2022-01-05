@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "459163197380",
-    "project_id": "paystrapp",
-    "storage_bucket": "paystrapp.appspot.com"
+    "project_number": "1089828653303",
+    "project_id": "paystrapp-cc9b7",
+    "storage_bucket": "paystrapp-cc9b7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:459163197380:android:cc037aa81e6045518c4e91",
+        "mobilesdk_app_id": "1:1089828653303:android:28c3a8b5f128fcc731ebf2",
         "android_client_info": {
           "package_name": "com.paystrapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "459163197380-qdbo05s09mm2kodro73v3n7di8gaussc.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.paystrapp",
-            "certificate_hash": "c4c0cf9d2bd2404cbaac40307874b18d8d429b77"
-          }
-        },
-        {
-          "client_id": "459163197380-kk2qa50dne2vltihb322qvof1psf0el2.apps.googleusercontent.com",
+          "client_id": "1089828653303-62jv9g22ppqmrg82ocls61r8ikfjl317.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDDZcVwg8oT8fHZdPWo0wfIm5Nqgp6_bGY"
+          "current_key": "AIzaSyDmQeHwO9jWKfZhE2G4wJl0NQ0_zIsN_-c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "459163197380-kk2qa50dne2vltihb322qvof1psf0el2.apps.googleusercontent.com",
+              "client_id": "1089828653303-62jv9g22ppqmrg82ocls61r8ikfjl317.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

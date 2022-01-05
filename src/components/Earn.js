@@ -33,7 +33,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
+const interstitial = InterstitialAd.createForAdRequest("ca-app-pub-9411890026929308/8406749302");
 // const interstitial = RewardedAd.createForAdRequest(TestIds.REWARDED);
 
 const Earn = props => {
@@ -85,7 +85,7 @@ const Earn = props => {
         const time = new Date().getTime();
         const millis = time - startT;
         // console.log(Math.floor(millis / 1000));
-        socket.emit('VIEW', {userId: props.user.userId, viewTime: Math.floor(millis / 1000)});
+        socket.emit('VIEW', {userId: props.user.userId, viewTime: Math.floor(1000 / 1000)});
         props.getUserProfile(props.user.email, props.user.token, props.user.userId);
         interstitial.load();
 

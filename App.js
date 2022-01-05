@@ -78,6 +78,7 @@ const App = () => {
           accountBalance,
           transactionPin,
           toggleEye,
+          referralCode
         } = JSON.parse(result);
 
         if (isEmailVerified) {
@@ -96,6 +97,7 @@ const App = () => {
           accountBalance,
           transactionPin,
           toggleEye,
+          referralCode
         });
         socket.on('connect', () => {
           // console.warn('============================')

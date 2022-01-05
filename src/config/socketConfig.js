@@ -3,7 +3,7 @@ import store from './configureStore';
 
 // const store = getStore();
 
-// const socket = openSocket('http://192.168.0.115:8080', {
+// const socket = openSocket('http://192.168.1.93:8080', {
   const socket = openSocket('https://paystrapp.com', {
 
   query: {token: '3749384208402'},
