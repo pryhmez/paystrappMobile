@@ -21,7 +21,7 @@ import slide3 from '../assets/slideimg3.png';
 import slide4 from '../assets/slideimg4.png';
 
 import MatIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const ScrollItem = props => {
   return (
@@ -35,7 +35,7 @@ const ScrollItem = props => {
         }}>
         <Image
           source={props.imgLink}
-          style={{width: '110%', resizeMode: 'contain'}}
+          style={{width: '100%', resizeMode: 'contain'}}
         />
       </View>
 
@@ -59,7 +59,7 @@ const ScrollItem = props => {
           {props.sideText}
         </Text>
       </View>
-      <View style={{height: '10%', width: '100%'}}>
+      <View style={{height: '9%', width: '100%', backgroundColor: 'transparent'}}>
         {props.btn ? (
           <Button
             name={'Sign Up'}
@@ -144,9 +144,10 @@ const AuthPage = props => {
 
       <View
         style={{
-          height: hp('18%'),
+          height: hp('20%'),
           alignItems: 'center',
-          justifyContent: 'space-between'
+          // justifyContent: 'space-evenly',
+          // backgroundColor: 'red'
         }}>
         <View
           style={{
@@ -172,8 +173,13 @@ const AuthPage = props => {
           />
         </View>
 
-        <TouchableOpacity style={{marginBottom: 15}} onPress={onSignInClick} >
-          <Text style={{color: '#1E0A9Dcc'}} >Already have an account? login</Text>
+        <TouchableOpacity
+          style={{marginBottom: 0, height: '60%', flexDirection: 'row'}}
+          onPress={onSignInClick}>
+          <Text style={{color: '#1E0A9Dcc'}}>Already have an account? </Text>
+          <Text style={{fontWeight: 'bold', color: '#1E0A9Dcc', fontSize: 15}}>
+            login
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -198,7 +204,7 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     borderColor: '#1D0C47',
     borderWidth: 1,
-    padding: 10,
+    padding: 7,
   },
 });
 

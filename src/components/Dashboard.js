@@ -128,7 +128,7 @@ const Dashboard = props => {
   useEffect(() => {
     socket.emit('userid', props.user.userId);
     socket.on('INCOMING_SLOT', (data, currentTime, cb) => {
-      console.warn(data);
+      // console.warn(data);
       // cb('recieved');
     });
   }, [props.user]);

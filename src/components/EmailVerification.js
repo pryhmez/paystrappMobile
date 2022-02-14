@@ -40,6 +40,7 @@ const EmailVerification = prop => {
 
   async function verify(phoneNumber) {
     prop.verifyEmail(prop.user.email, value).then(result => {
+      console.warn("email is verifying")
       if (result.status == 200 && result.success == true) {
         setConfirm(false);
 

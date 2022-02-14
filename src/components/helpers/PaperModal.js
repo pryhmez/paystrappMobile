@@ -27,8 +27,9 @@ const PaperModal = props => {
     <View >
       <Portal>
         <Modal
+          dismissable={true}
           visible={props.show && visible}
-          onDismiss={hideModal}
+          // onDismiss={hideModal}
           contentContainerStyle={containerStyle}
           {...props}
           >
@@ -48,9 +49,10 @@ const PaperModal = props => {
 const styles = StyleSheet.create({
   container: {
     minHeight: 46,
+    maxHeight: '70%',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
+    width: '80%',
     padding: 5,
     paddingHorizontal: 15,
   }

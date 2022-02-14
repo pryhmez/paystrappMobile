@@ -32,6 +32,7 @@ class SignUp extends React.Component {
   // const CELL_COUNT = 5;
   constructor(props) {
     super(props);
+    this.inputRef = React.createRef();
     this.state = {
       firstName: '',
       lastName: '',
@@ -39,6 +40,7 @@ class SignUp extends React.Component {
       phone: '',
       password: '',
       confirmPassword: '',
+      referalId: '',
       loading: false,
     };
   }
@@ -138,7 +140,8 @@ class SignUp extends React.Component {
 
     if (validationResult.success) {
       this.setState({isSubmitting: true});
-      console.log(validationResult);
+      // console.log(validationResult);
+      // console.warn("============e don dey run==========")
 
       this.props
         .signUpUser(this.state)
@@ -147,7 +150,7 @@ class SignUp extends React.Component {
           this.setState({loading: false});
           switch (result.status) {
             case 200:
-              this.props.navigation.navigate('SignIn');
+              // this.props.navigation.navigate('SignIn');
               break;
             default:
           }
@@ -167,12 +170,14 @@ class SignUp extends React.Component {
     }
   };
 
+  componentWillUnmount() {}
+
   render() {
     return (
       <ScrollView
         style={styles.container}
         contentContainerStyle={{alignItems: 'center'}}>
-        <View style={{height: hp('100%')}}>
+        <View style={{overflow: 'scroll'}}>
           <StatusBar barStyle="dark-content" backgroundColor="white" />
 
           {/* <KeyboardAvoidanceWrapper> */}
@@ -182,8 +187,8 @@ class SignUp extends React.Component {
           <View
             style={{
               width: wp('100%'),
-              // height: hp('7%'),
-              flex: 0.1,
+              height: hp('10%'),
+              // flex: 1,
               marginLeft: wp('0%'),
               alignItems: 'center',
               // backgroundColor: 'green'
@@ -217,9 +222,11 @@ class SignUp extends React.Component {
           </View>
 
           <View style={styles.formContainer}>
-           {this.state.error &&  <Text style={{color: 'red', marginBottom: this.state.error &&  5}}>
-              {this.state.error && this.state.error}{' '}
-            </Text>}
+            {this.state.error && (
+              <Text style={{color: 'red', marginBottom: this.state.error && 5}}>
+                {this.state.error && this.state.error}{' '}
+              </Text>
+            )}
 
             <InputField
               container={{padding: 0}}
@@ -228,6 +235,8 @@ class SignUp extends React.Component {
               placeholder="First Name"
               value={this.state.firstName}
               onChangeText={value => this.setState({firstName: value.trim()})}
+              onSubmitEditing={() => { this.inputRef.focus() }}
+              blurOnSubmit={false}
             />
 
             <InputField
@@ -237,6 +246,8 @@ class SignUp extends React.Component {
               placeholder="Last Name"
               value={this.state.lastName}
               onChangeText={value => this.setState({lastName: value.trim()})}
+              ref={'inputReff'}
+
             />
 
             <InputField
@@ -276,6 +287,19 @@ class SignUp extends React.Component {
               value={this.state.confirmPassword}
               onChangeText={value =>
                 this.setState({confirmPassword: value.trim()})
+              }
+              secureTextEntry={true}
+            />
+
+            <InputField
+              container={{padding: 0}}
+              label={'Referal ID'}
+              returnKeyType="go"
+              returnKeyLabel="Let's go!!"
+              placeholder="Enter Referal ID(optional)"
+              value={this.state.referalId}
+              onChangeText={value =>
+                this.setState({referalId: value.trim()})
               }
               secureTextEntry={true}
             />
@@ -345,28 +369,30 @@ const styles = StyleSheet.create({
   // },
   bottomView: {
     // flex: 1,
-    height: '15%',
+    height: hp('15%'),
+    marginTop: 10,
     alignItems: 'center',
     // backgroundColor: 'cyan',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   logoArea: {
-    flex: 0.25,
-    height: hp('19%'),
+    flex: 40,
+    height: hp('15%'),
     // backgroundColor: 'chocolate',
     justifyContent: 'center',
     alignItems: 'center',
   },
   formContainer: {
     width: wp('100%'),
-    flex: 1,
+    // flex: 1,
     // height: hp('10%'),
     // backgroundColor: 'red',
-    height: hp('100%'),
+    // height: 1000,
     paddingLeft: 13,
     paddingRight: 13,
     paddingTop: 0,
     alignItems: 'center',
+    overflow: 'scroll',
   },
   headerTxt: {
     fontWeight: 'bold',

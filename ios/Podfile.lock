@@ -369,7 +369,7 @@ PODS:
   - React-jsinspector (0.65.1)
   - react-native-admob-native-ads (0.5.0):
     - React-Core
-  - react-native-netinfo (6.0.4):
+  - react-native-netinfo (5.9.10):
     - React-Core
   - react-native-safe-area-context (0.7.3):
     - React
@@ -439,6 +439,8 @@ PODS:
     - React-perflogger (= 0.65.1)
   - RNCAsyncStorage (1.15.8):
     - React-Core
+  - RNCPicker (1.8.1):
+    - React-Core
   - RNFBAdMob (11.5.0):
     - Firebase/AdMob (= 7.11.0)
     - PersonalizedAdConsent (~> 1.0.5)
@@ -448,6 +450,11 @@ PODS:
     - Firebase/CoreOnly (= 7.11.0)
     - React-Core
   - RNGestureHandler (1.10.3):
+    - React-Core
+  - RNNotifee (4.1.0):
+    - React-Core
+    - RNNotifee/NotifeeCore (= 4.1.0)
+  - RNNotifee/NotifeeCore (4.1.0):
     - React-Core
   - RNReanimated (1.13.3):
     - React-Core
@@ -516,9 +523,11 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCPicker (from `../node_modules/@react-native-community/picker`)"
   - "RNFBAdMob (from `../node_modules/@react-native-firebase/admob`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -618,12 +627,16 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCPicker:
+    :path: "../node_modules/@react-native-community/picker"
   RNFBAdMob:
     :path: "../node_modules/@react-native-firebase/admob"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNNotifee:
+    :path: "../node_modules/@notifee/react-native"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -677,7 +690,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 43f2542aed3c26e42175b339f8d37fe3dd683765
   React-jsinspector: 41e58e5b8e3e0bf061fdf725b03f2144014a8fb0
   react-native-admob-native-ads: 408060ec533d09c78b78c4dbe897a340ab697b1c
-  react-native-netinfo: 78bb0c4bf96177a14ea1bba951de9ad27419965b
+  react-native-netinfo: 52cf0ee8342548a485e28f4b09e56b477567244d
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   React-perflogger: fd28ee1f2b5b150b00043f0301d96bd417fdc339
   React-RCTActionSheet: 7f3fa0855c346aa5d7c60f9ced16e067db6d29fa
@@ -692,9 +705,11 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 85187f19dd9c47a7c102f9994f9d14e4dc2110de
   ReactCommon: eafed38eec7b591c31751bfa7494801618460459
   RNCAsyncStorage: 0f655864a81214d1c5a9bf0faf79d86dc25c383e
+  RNCPicker: 914b557e20b3b8317b084aca9ff4b4edb95f61e4
   RNFBAdMob: a2b5f148468b16d02543707d4627bc9a19016bf3
   RNFBApp: 9c90f9d576861947ba75fe0830567c570bcbcf6d
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
+  RNNotifee: f1ba270897bd7491f889a1a257d0c038a43376f7
   RNReanimated: 514a11da3a2bcc6c3dfd9de32b38e2b9bf101926
   RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4

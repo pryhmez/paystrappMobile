@@ -98,6 +98,7 @@
        }
  
        if (store.getState().user.emailVerified) {
+         console.warn('email verified')
  
          setIsEmailVerified(true);
        }
@@ -107,16 +108,17 @@
        setIsLoading(false);
      }, 3000);
    }, []);
+
+
  
  
    return (
      <SafeAreaProvider style={backgroundStyle}>
        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={'white'} />
-
              {isLoading ? (
                <SplashNav />
              ) : isSignedIn ? (
-               isEmailVerified ? (
+               props.isEmailVerified ? (
                  // <TabsNav />
                  <Main />
                ) : (

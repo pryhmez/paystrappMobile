@@ -139,7 +139,7 @@ export const signInUser = ({email, password}) => {
   };
 };
 
-export const signUpUser = ({firstName, lastName, email, phone, password}) => {
+export const signUpUser = ({firstName, lastName, email, phone, password, referalId}) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
       console.log('about to hit');
@@ -151,6 +151,7 @@ export const signUpUser = ({firstName, lastName, email, phone, password}) => {
           firstName,
           lastName,
           phone,
+          referalId
         })
         .then(response => {
           let res = response.data.data;

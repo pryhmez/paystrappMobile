@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {connect, useDispatch} from 'react-redux';
-import { getUserProfile  } from '../actions/user';
+import {getUserProfile} from '../actions/user';
 
 import {
   SafeAreaView,
@@ -16,6 +16,8 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import NetInfo from '@react-native-community/netinfo';
+import {Tooltip} from 'react-native-elements';
+import Popover from 'react-native-popover-view';
 // import admob, {MaxAdContentRating} from '@react-native-firebase/admob';
 import {
   InterstitialAd,
@@ -27,18 +29,24 @@ import {
 import MyModal from './helpers/myModal';
 import PaperModal from './helpers/PaperModal';
 import {socket, connectFunction} from '../config/socketConfig';
+import notifee, { TimestampTrigger, TriggerType, IntervalTrigger, TimeUnit, AndroidImportance } from '@notifee/react-native';
 
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-const interstitial = InterstitialAd.createForAdRequest("ca-app-pub-9411890026929308/8406749302");
+const interstitial = InterstitialAd.createForAdRequest(
+  'ca-app-pub-5968472501012397/5915097117',
+);
 // const interstitial = RewardedAd.createForAdRequest(TestIds.REWARDED);
 
 const Earn = props => {
   // const value = useSelector(state => state.countdown);
   const dispatch = useDispatch();
+  const touchable = useRef();
+  const clearer = useRef();
+  const [showPopover, setShowPopover] = useState(false);
   let viewClocker;
 
   const [sessionComplete, setSessionComplete] = useState(!true);
@@ -85,10 +93,16 @@ const Earn = props => {
         const time = new Date().getTime();
         const millis = time - startT;
         // console.log(Math.floor(millis / 1000));
-        socket.emit('VIEW', {userId: props.user.userId, viewTime: Math.floor(1000 / 1000)});
-        props.getUserProfile(props.user.email, props.user.token, props.user.userId);
+        socket.emit('VIEW', {
+          userId: props.user.userId,
+          viewTime: Math.floor(1000 / 1000),
+        });
+        props.getUserProfile(
+          props.user.email,
+          props.user.token,
+          props.user.userId,
+        );
         interstitial.load();
-
       }
     });
 
@@ -103,6 +117,24 @@ const Earn = props => {
     };
   }, []);
 
+  useEffect(() => {
+
+
+    if(props.countdown.count % 2 == 0) {
+      // onDisplayNotification()
+      // setTimeout(() => {
+  
+      //   onCreateTriggerNotification()
+      // }, 2000)
+    }else {
+      setTimeout(() => {
+        onDisplayNotification()
+  
+        onCreateTriggerNotification()
+      }, 1000)
+    }
+  }, [props.countdown.count])
+
   showAd = async () => {
     await interstitial.show();
   };
@@ -116,6 +148,87 @@ const Earn = props => {
       50,
     );
   };
+
+  async function onCreateTriggerNotification () {
+    const channelId = await notifee.createChannel({
+      id: 'earn',
+      name: 'earn channel',
+      importance: AndroidImportance.HIGH
+    });
+
+    const sec = parseInt(props.countdown.timer, 10); // convert value to number if it's string
+
+
+    // const date = new Date(Date.now());
+    // date.setHours(Math.floor(sec / 3600));
+    // date.setMinutes(57);
+
+    //Create a time-based trigger
+    const trigger = {
+      type: TriggerType.TIMESTAMP,
+      timestamp: Date.now() + 1000 * sec,
+    };
+
+
+    await notifee.createTriggerNotification(
+      {
+        title: 'New Earning session',
+         body: 'Hey champ your new earning session has started return to app to earn more.',
+         android: {
+          channelId,
+          importance: AndroidImportance.HIGH,
+          smallIcon: 'my_logo',
+          largeIcon: 'https://res.cloudinary.com/sentinelprime/image/upload/c_scale,w_222/v1643758309/Group_42_2_pawthz.png',
+          actions: [
+            {
+              pressAction: { id: "earnnow" },
+              title: "Earn Now",
+              launchActivity: "default"
+            },
+            { pressAction: { id: "later" }, title: "Later" },
+          ]
+        },
+      },
+      trigger
+    )
+    
+    // console.warn(sec)
+  }
+
+  async function onDisplayNotification() {
+
+    await notifee.requestPermission();
+    // Create a channel
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+      importance: AndroidImportance.HIGH
+    });
+
+    // Display a notification
+    await notifee.displayNotification({
+      title: 'Session Ended',
+      body: `Check back in
+      ${hrs.toString().padStart(2, '0')}:${mins
+        .toString()
+        .padStart(2, '0')}:${secs.toString().padStart(2, '0')}
+      for a new earning session`,
+      android: {
+        channelId,
+        importance: AndroidImportance.HIGH,
+        smallIcon: 'my_logo',
+        largeIcon: 'https://res.cloudinary.com/sentinelprime/image/upload/c_scale,w_222/v1643758309/Group_42_2_pawthz.png',
+        actions: [
+          {
+            pressAction: { id: "earnnow" },
+            title: "Earn Now",
+            launchActivity: "default"
+          },
+          { pressAction: { id: "later" }, title: "Later" },
+        ]
+      },
+    });
+  }
 
   useEffect(() => {
     // const timerId = setInterval(() => tick(), 1000);
@@ -159,10 +272,39 @@ const Earn = props => {
       />
 
       <View style={styles.container}>
-        <PaperModal
+        <Popover
+          from={touchable}
+          isVisible={!showPopover && (vpnOn && sessionComplete)}
+          popoverStyle={{
+            borderRadius: 7
+          }}
+          onRequestClose={() => setShowPopover(!false)}>
+          <View
+            style={{
+              height: 45,
+              width: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: 10,
+              borderColor: '#FF9100',
+              borderWidth: 1,
+              borderRadius: 7
+            }}>
+            <Text>
+              Click Here When it turns blue to start your earning streak
+            </Text>
+          </View>
+        </Popover>
+
+        {
+          !vpnOn &&
+          <PaperModal
           show={!vpnOn}
-          // onDismiss={setHideModal(false)}
-          // visible={!vpnOn}
+          onDismiss={() => {
+            setVpnOn(!vpnOn);
+            console.warn('closing');
+          }}
+          // visible={vpnOn}
           contentContainerStyle={{
             backgroundColor: 'white',
             padding: 20,
@@ -183,6 +325,8 @@ const Earn = props => {
             <Text style={{fontFamily: 'Raleway-Regular', fontSize: 17}}>
               OOPS! please turn on a VPN.
             </Text>
+
+         
           </View>
 
           <View style={{width: '100%', marginTop: 10}}>
@@ -196,8 +340,16 @@ const Earn = props => {
               the United States to get the best experience.{' '}
             </Text>
           </View>
-        </PaperModal>
 
+          {/* <TouchableOpacity onPress={() => console.warn('!vpnOn')} style={{backgroundColor: 'red', width: '100%', height: 20}}>
+            <Ionicons
+              name={'ios-warning-outline'}
+              size={30}
+              color={'#FF0000'}
+            />
+            </TouchableOpacity> */}
+        </PaperModal>
+}
         <View style={styles.btnContainer}>
           <TouchableOpacity style={styles.timerBtn}>
             <Ionicons
@@ -221,7 +373,7 @@ const Earn = props => {
         </View>
 
         <View style={styles.adCont}>
-          {sessionComplete ? (
+          {!sessionComplete ? (
             <View style={styles.sessionHolder}>
               <Text
                 style={{
@@ -245,8 +397,11 @@ const Earn = props => {
                 for a new earning session
               </Text>
               <TouchableOpacity
+                ref={touchable}
                 style={styles.btn}
                 onPress={() => props.navigation.navigate('Dashboard')}>
+                {/* onPress={() => onDisplayNotification()}> */}
+
                 <Text style={{color: 'white', fontFamily: 'Raleway-Regular'}}>
                   Go To Home
                 </Text>
@@ -276,9 +431,11 @@ const Earn = props => {
                   onAdFailedToLoad={(error) => {
                     console.warn('Advert failed to load: ', error);}}
                 /> */}
+
                 <Button
+                  ref={touchable}
                   title="Start Session"
-                  disabled={!loaded}
+                  // disabled={!loaded}
                   onPress={() => {
                     if (!vpnOn) {
                       showToastWithGravityAndOffset;
@@ -372,4 +529,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { getUserProfile })(Earn);
+export default connect(mapStateToProps, {getUserProfile})(Earn);

@@ -52,7 +52,6 @@ export default function user(state = initialState, action) {
     case 'SIGN_OUT':
       AsyncStorage.clear();
       return {
-        ...state,
         token: '',
         userId: '',
         email: '',
@@ -61,7 +60,9 @@ export default function user(state = initialState, action) {
         emailVerified: null,
         phoneVerified: null,
         accountBalance: 0,
-        transactionPin: null,
+        transactionPin: false,
+        toggleEye: false,
+        referralCode: ''
       };
       break;
     default:

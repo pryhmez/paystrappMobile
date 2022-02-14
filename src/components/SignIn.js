@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 import {Input} from 'react-native-elements';
 import {connect} from 'react-redux';
+import notifee, { TimestampTrigger, TriggerType, IntervalTrigger, TimeUnit, AndroidImportance } from '@notifee/react-native';
+
 
 import {addUser, signInUser} from '../actions/user';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -94,6 +96,26 @@ class SignIn extends React.Component {
       }
     }
     return {success: true};
+  }
+
+  async onDisplayNotification() {
+
+    await notifee.requestPermission();
+    // Create a channel
+    const channelId = await notifee.createChannel({
+      id: 'general',
+      name: 'General',
+      importance: AndroidImportance.HIGH
+    });
+
+    // Display a notification
+    await notifee.displayNotification({
+      title: 'Notification Title',
+      body: 'Main body content of the notification',
+      android: {
+        channelId
+            },
+    });
   }
 
   SignInUser = () => {
@@ -214,11 +236,13 @@ class SignIn extends React.Component {
                 action={() => {
                   this.setState({loading: true});
                   this.SignInUser();
+                  // this.onDisplayNotification()
                 }}
                 indicator={this.state.loading}
               />
             </View>
           </KeyboardAvoidanceWrapper>
+          
           <View style={styles.sigupView}>
             <Text>Dont't have an account yet? </Text>
             <TouchableOpacity
@@ -238,6 +262,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     height: hp('100%'),
+    // backgroundColor: 'green'
   },
   mainContainer: {
     flex: 1,
@@ -295,10 +320,11 @@ const styles = StyleSheet.create({
   },
   sigupView: {
     flexDirection: 'row',
-    height: hp('10%'),
+    height: hp('15%'),
     width: wp('100%'),
     alignItems: 'center',
     justifyContent: 'center',
+    // backgroundColor: 'red'
   },
 });
 
