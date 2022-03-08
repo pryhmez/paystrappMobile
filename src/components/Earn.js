@@ -29,7 +29,13 @@ import {
 import MyModal from './helpers/myModal';
 import PaperModal from './helpers/PaperModal';
 import {socket, connectFunction} from '../config/socketConfig';
-import notifee, { TimestampTrigger, TriggerType, IntervalTrigger, TimeUnit, AndroidImportance } from '@notifee/react-native';
+import notifee, {
+  TimestampTrigger,
+  TriggerType,
+  IntervalTrigger,
+  TimeUnit,
+  AndroidImportance,
+} from '@notifee/react-native';
 
 import {
   widthPercentageToDP as wp,
@@ -53,6 +59,7 @@ const Earn = props => {
 
   // const { hours = 0, minutes = 0, seconds = 60 } = {hours: 00, minutes: 00, seconds: 00};
   const [[hrs, mins, secs], setTime] = useState([0, 10, 10]);
+  const [checkLoaded, setCheckLoaded] = useState();
   const [loaded, setLoaded] = useState(false);
   const [event, setEvent] = useState();
   const [vpnOn, setVpnOn] = useState(false);
@@ -60,6 +67,15 @@ const Earn = props => {
   const [startTime, setStartTime] = useState();
   const [viewTime, setViewTime] = useState();
   let startT = 0;
+
+  useEffect(() => {
+    const sec = parseInt(props.countdown.timer, 10); // convert value to number if it's string
+    let hours = Math.floor(sec / 3600); // get hours
+    let minutes = Math.floor((sec - hours * 3600) / 60); // get minutes
+    let seconds = sec - hours * 3600 - minutes * 60;
+    setTime([hours, minutes, seconds]);
+    // console.log(hours, minutes, secs)
+  }, [props.countdown.timer]);
 
   useEffect(() => {
     // Subscribe
@@ -118,22 +134,27 @@ const Earn = props => {
   }, []);
 
   useEffect(() => {
+    if (checkLoaded == true) {
+      if (props.countdown.count % 2 == 0) {
+        onDisplayNotification(
+          'Session Ended',
+          'Check back in',
+          'to continue earning',
+        );
+        onCreateTriggerNotification();
+      } else {
+        setTimeout(() => {
+          onDisplayNotification(
+            'Session started',
+            'This session will last for',
+            'HAPPY EARNING',
+          );
 
-
-    if(props.countdown.count % 2 == 0) {
-      // onDisplayNotification()
-      // setTimeout(() => {
-  
-      //   onCreateTriggerNotification()
-      // }, 2000)
-    }else {
-      setTimeout(() => {
-        onDisplayNotification()
-  
-        onCreateTriggerNotification()
-      }, 1000)
+          onCreateTriggerNotification();
+        }, 1000);
+      }
     }
-  }, [props.countdown.count])
+  }, [checkLoaded]);
 
   showAd = async () => {
     await interstitial.show();
@@ -149,15 +170,14 @@ const Earn = props => {
     );
   };
 
-  async function onCreateTriggerNotification () {
-    const channelId = await notifee.createChannel({
-      id: 'earn',
-      name: 'earn channel',
-      importance: AndroidImportance.HIGH
-    });
+  async function onCreateTriggerNotification() {
+    // const channelId = await notifee.createChannel({
+    //   id: 'earn',
+    //   name: 'earn channel',
+    //   importance: AndroidImportance.HIGH,
+    // });
 
     const sec = parseInt(props.countdown.timer, 10); // convert value to number if it's string
-
 
     // const date = new Date(Date.now());
     // date.setHours(Math.floor(sec / 3600));
@@ -166,66 +186,72 @@ const Earn = props => {
     //Create a time-based trigger
     const trigger = {
       type: TriggerType.TIMESTAMP,
-      timestamp: Date.now() + 1000 * sec,
+      timestamp: Date.now() + 1000 * (sec - 200),
+      // timestamp: Date.now() + 30 * 1000,
+      repeatFrequency: RepeatFrequency.WEEKLY
     };
-
 
     await notifee.createTriggerNotification(
       {
         title: 'New Earning session',
-         body: 'Hey champ your new earning session has started return to app to earn more.',
-         android: {
-          channelId,
+        body: 'Hey champ your new earning session has started return to app to earn more.',
+        android: {
+          channelId: "default",
           importance: AndroidImportance.HIGH,
           smallIcon: 'my_logo',
-          largeIcon: 'https://res.cloudinary.com/sentinelprime/image/upload/c_scale,w_222/v1643758309/Group_42_2_pawthz.png',
+          largeIcon:
+            'https://res.cloudinary.com/sentinelprime/image/upload/c_scale,w_222/v1643758309/Group_42_2_pawthz.png',
           actions: [
             {
-              pressAction: { id: "earnnow" },
-              title: "Earn Now",
-              launchActivity: "default"
+              pressAction: {id: 'earnnow'},
+              title: 'Earn Now',
+              launchActivity: 'default',
             },
-            { pressAction: { id: "later" }, title: "Later" },
-          ]
+            {pressAction: {id: 'later'}, title: 'Later'},
+          ],
         },
       },
-      trigger
-    )
-    
+      trigger,
+    );
+
+    await notifee
+      .getTriggerNotificationIds()
+      .then(ids => console.warn('All trigger notifications: ', ids));
+
     // console.warn(sec)
   }
 
-  async function onDisplayNotification() {
-
+  async function onDisplayNotification(title, text1, text2) {
     await notifee.requestPermission();
     // Create a channel
     const channelId = await notifee.createChannel({
       id: 'default',
       name: 'Default Channel',
-      importance: AndroidImportance.HIGH
+      importance: AndroidImportance.HIGH,
     });
 
     // Display a notification
     await notifee.displayNotification({
-      title: 'Session Ended',
-      body: `Check back in
+      title,
+      body: `${text1}
       ${hrs.toString().padStart(2, '0')}:${mins
         .toString()
         .padStart(2, '0')}:${secs.toString().padStart(2, '0')}
-      for a new earning session`,
+      ${text2}`,
       android: {
         channelId,
         importance: AndroidImportance.HIGH,
         smallIcon: 'my_logo',
-        largeIcon: 'https://res.cloudinary.com/sentinelprime/image/upload/c_scale,w_222/v1643758309/Group_42_2_pawthz.png',
+        largeIcon:
+          'https://res.cloudinary.com/sentinelprime/image/upload/c_scale,w_222/v1643758309/Group_42_2_pawthz.png',
         actions: [
           {
-            pressAction: { id: "earnnow" },
-            title: "Earn Now",
-            launchActivity: "default"
+            pressAction: {id: 'earnnow'},
+            title: 'Earn Now',
+            launchActivity: 'default',
           },
-          { pressAction: { id: "later" }, title: "Later" },
-        ]
+          {pressAction: {id: 'later'}, title: 'Later'},
+        ],
       },
     });
   }
@@ -238,16 +264,8 @@ const Earn = props => {
     } else {
       setSessionComplete(true);
     }
+    setCheckLoaded(true);
   });
-
-  useEffect(() => {
-    const sec = parseInt(props.countdown.timer, 10); // convert value to number if it's string
-    let hours = Math.floor(sec / 3600); // get hours
-    let minutes = Math.floor((sec - hours * 3600) / 60); // get minutes
-    let seconds = sec - hours * 3600 - minutes * 60;
-    setTime([hours, minutes, seconds]);
-    // console.log(hours, minutes, secs)
-  }, [props.countdown.timer]);
 
   // No advert ready to show yet
   // if (!vpnOn) {
@@ -274,9 +292,9 @@ const Earn = props => {
       <View style={styles.container}>
         <Popover
           from={touchable}
-          isVisible={!showPopover && (vpnOn && sessionComplete)}
+          isVisible={!showPopover && vpnOn && sessionComplete}
           popoverStyle={{
-            borderRadius: 7
+            borderRadius: 7,
           }}
           onRequestClose={() => setShowPopover(!false)}>
           <View
@@ -288,7 +306,7 @@ const Earn = props => {
               padding: 10,
               borderColor: '#FF9100',
               borderWidth: 1,
-              borderRadius: 7
+              borderRadius: 7,
             }}>
             <Text>
               Click Here When it turns blue to start your earning streak
@@ -296,60 +314,57 @@ const Earn = props => {
           </View>
         </Popover>
 
-        {
-          !vpnOn &&
+        {!vpnOn && (
           <PaperModal
-          show={!vpnOn}
-          onDismiss={() => {
-            setVpnOn(!vpnOn);
-            console.warn('closing');
-          }}
-          // visible={vpnOn}
-          contentContainerStyle={{
-            backgroundColor: 'white',
-            padding: 20,
-            width: '85%',
-            alignSelf: 'center',
-            height: '20%',
-            borderRadius: 10,
-            borderColor: '#FF910099',
-            justifyContent: 'center',
-            borderWidth: 1,
-          }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Ionicons
-              name={'ios-warning-outline'}
-              size={30}
-              color={'#FF0000'}
-            />
-            <Text style={{fontFamily: 'Raleway-Regular', fontSize: 17}}>
-              OOPS! please turn on a VPN.
-            </Text>
+            show={!vpnOn}
+            onDismiss={() => {
+              setVpnOn(!vpnOn);
+              console.warn('closing');
+            }}
+            // visible={vpnOn}
+            contentContainerStyle={{
+              backgroundColor: 'white',
+              padding: 20,
+              width: '85%',
+              alignSelf: 'center',
+              height: '20%',
+              borderRadius: 10,
+              borderColor: '#FF910099',
+              justifyContent: 'center',
+              borderWidth: 1,
+            }}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Ionicons
+                name={'ios-warning-outline'}
+                size={30}
+                color={'#FF0000'}
+              />
+              <Text style={{fontFamily: 'Raleway-Regular', fontSize: 17}}>
+                OOPS! please turn on a VPN.
+              </Text>
+            </View>
 
-         
-          </View>
+            <View style={{width: '100%', marginTop: 10}}>
+              <Text
+                style={{
+                  fontFamily: 'Raleway-Regular',
+                  fontSize: 15,
+                  textAlign: 'justify',
+                }}>
+                We recomended you use Thunder VPN and set your preferred server
+                to the United States to get the best experience.{' '}
+              </Text>
+            </View>
 
-          <View style={{width: '100%', marginTop: 10}}>
-            <Text
-              style={{
-                fontFamily: 'Raleway-Regular',
-                fontSize: 15,
-                textAlign: 'justify',
-              }}>
-              We recomended you use Thunder VPN and set your preferred server to
-              the United States to get the best experience.{' '}
-            </Text>
-          </View>
-
-          {/* <TouchableOpacity onPress={() => console.warn('!vpnOn')} style={{backgroundColor: 'red', width: '100%', height: 20}}>
+            {/* <TouchableOpacity onPress={() => console.warn('!vpnOn')} style={{backgroundColor: 'red', width: '100%', height: 20}}>
             <Ionicons
               name={'ios-warning-outline'}
               size={30}
               color={'#FF0000'}
             />
             </TouchableOpacity> */}
-        </PaperModal>
-}
+          </PaperModal>
+        )}
         <View style={styles.btnContainer}>
           <TouchableOpacity style={styles.timerBtn}>
             <Ionicons

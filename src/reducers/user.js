@@ -18,7 +18,7 @@ const initialState = {
 export default function user(state = initialState, action) {
   switch (action.type) {
     case 'ADD_USER':
-      console.log('adding user', action.referralCode);
+      // console.warn('adding user', action.referralCode);
       return {
         ...state,
         token: action.token,

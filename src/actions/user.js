@@ -236,6 +236,7 @@ export const getUserProfile = (email, token, userId) => {
         .then(response => {
           let res = response.data;
           // socket.emit('userid', res.user._id);
+          // console.warn(res.user.referralCode)
           dispatch(
             addUser(
               res.token,

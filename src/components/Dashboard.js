@@ -141,6 +141,7 @@ const Dashboard = props => {
     setTime([hours, minutes, seconds]);
   }, [props.countdown.timer]);
 
+
   return (
     <View style={styles.pageContainer}>
       <StatusBar barStyle="dark-content" style={{backgroundColor: 'white'}} />
@@ -237,7 +238,7 @@ const Dashboard = props => {
             height: '100%',
             borderRadius: 7,
             backgroundColor: '#1D0C47',
-            padding: 2,
+            padding: 2
           }}>
           <View
             style={{
